@@ -1,0 +1,8 @@
+<div class="property-box-header" (click)="toggleExpanded()">
+    <p class="property-box-header-label">{{ header }}</p>
+    <i class="hpe-icon" [class.hpe-down]="expanded" [class.hpe-previous]="!expanded"></i>
+</div>
+
+<div class="property-box-content" *ngIf="expanded">
+    <ng-content></ng-content>
+</div>

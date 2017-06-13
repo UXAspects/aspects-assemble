@@ -1,0 +1,105 @@
+<uxa-header (onCreate)="create()"></uxa-header>
+
+<div class="main-content">
+
+    <uxa-preview-pane></uxa-preview-pane>
+
+    <uxa-properties-pane>
+
+        <uxa-property-box header="Application Details" [expanded]="true">
+
+            <div class="form-group">
+                <label class="form-label">Application Name</label>
+                <input type="text" [ngModel]="themeService.name | async" (ngModelChange)="themeService.name.next($event)" placeholder="My Application"
+                    class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Logo</label>
+                <input type="url" [ngModel]="themeService.logo | async" (ngModelChange)="themeService.logo.next($event)" placeholder="logo.png"
+                    class="form-control">
+            </div>
+
+        </uxa-property-box>
+
+        <uxa-property-box header="Theme">
+
+            <div class="form-group">
+                <label class="form-label">Page Background</label>
+                <input class="form-control color-input" [colorPicker]="themeService.background | async" (colorPickerChange)="setColor(themeService.background, $event)"
+                    [style.background]="themeService.background | async" [value]="themeService.background | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Top Navigation</label>
+                <input class="form-control color-input" [colorPicker]="themeService.topNavigation | async" (colorPickerChange)="setColor(themeService.topNavigation, $event)"
+                    [style.background]="themeService.topNavigation | async" [value]="themeService.topNavigation | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Side Navigation</label>
+                <input class="form-control color-input" [colorPicker]="themeService.sideNavigation | async" (colorPickerChange)="setColor(themeService.sideNavigation, $event)"
+                    [style.background]="themeService.sideNavigation | async" [value]="themeService.sideNavigation | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Primary</label>
+                <input class="form-control color-input" [colorPicker]="themeService.primary | async" (colorPickerChange)="setColor(themeService.primary, $event)"
+                    [style.background]="themeService.primary | async" [value]="themeService.primary | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Accent</label>
+                <input class="form-control color-input" [colorPicker]="themeService.accent | async" (colorPickerChange)="setColor(themeService.accent, $event)"
+                    [style.background]="themeService.accent | async" [value]="themeService.accent | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Alternate 1</label>
+                <input class="form-control color-input" [colorPicker]="themeService.alternate1 | async" (colorPickerChange)="setColor(themeService.alternate1, $event)"
+                    [style.background]="themeService.alternate1 | async" [value]="themeService.alternate1 | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Alternate 2</label>
+                <input class="form-control color-input" [colorPicker]="themeService.alternate2 | async" (colorPickerChange)="setColor(themeService.alternate2, $event)"
+                    [style.background]="themeService.alternate2 | async" [value]="themeService.alternate2 | async" cpPosition="left"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Alternate 3</label>
+                <input class="form-control color-input" [colorPicker]="themeService.alternate3 | async" (colorPickerChange)="setColor(themeService.alternate3, $event)"
+                    [style.background]="themeService.alternate3 | async" [value]="themeService.alternate3 | async" cpPosition="left"
+                />
+            </div>
+        </uxa-property-box>
+
+        <uxa-property-box header="Pages">
+
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="input-group m-b">
+                        <input type="text" [(ngModel)]="page" class="form-control">
+                        <div class="btn button-primary add-button" (click)="addPage()">Add Page</div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="page-list">
+                <li class="page-list-item" *ngFor="let page of themeService.pages | async; let idx = index">
+                    {{ page }}
+                    <i class="hpe-icon hpe-close" (click)="removePage(idx)" style="cursor: pointer"></i>
+                </li>
+            </ul>
+        </uxa-property-box>
+
+    </uxa-properties-pane>
+
+</div>
