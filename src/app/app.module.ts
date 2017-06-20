@@ -9,23 +9,31 @@ import { PropertyBoxComponent } from './components/property-box/property-box.com
 import { ColorPickerModule } from 'angular4-color-picker';
 import { ThemeService } from './services/theme/theme.service';
 import { BuilderService } from './services/builder/builder.service';
+import { ColorInverseDirective } from './directives/color-inverse/color-inverse.directive';
+import { IconDirective } from './directives/icon/icon.directive';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { VectorService } from './services/vector/vector.service';
 
 @NgModule({
   imports: [
     BrowserModule,
     ColorPickerModule,
-    FormsModule
+    FormsModule,
+    ModalModule.forRoot()
   ],
   declarations: [
     AppComponent,
     HeaderComponent,
     PropertiesPaneComponent,
     PreviewPaneComponent,
-    PropertyBoxComponent
+    PropertyBoxComponent,
+    ColorInverseDirective,
+    IconDirective
   ],
   providers: [
     ThemeService,
-    BuilderService
+    BuilderService,
+    VectorService
   ],
   bootstrap: [AppComponent]
 })

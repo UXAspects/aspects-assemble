@@ -1,15 +1,20 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { select } from 'd3';
-import { ThemeService } from '../../services/theme/theme.service';
+import { Component, OnInit, ElementRef, EventEmitter, Output } from '@angular/core';
+import { select, transition, easeLinear } from 'd3';
+import { ThemeService, PageData } from '../../services/theme/theme.service';
+import { IconSet } from '../../directives/icon/icon.directive';
+import { VectorService } from '../../services/vector/vector.service';
 
 // size constants
-const CONTAINER_WIDTH = 1920;
-const CONTAINER_HEIGHT = 982;
+const VIEWPORT_WIDTH = 1920;
+const VIEWPORT_HEIGHT = 982;
 const APPLICATION_WIDTH = 1620;
 const APPLICATION_HEIGHT = 932;
 const SIDE_NAVIGATION_WIDTH = 240;
 const SIDE_NAVIGATION_MENU_ITEM_HEIGHT = 50;
+const PAGE_HEADER_WIDTH = APPLICATION_WIDTH - SIDE_NAVIGATION_WIDTH;
 const PAGE_HEADER_HEIGHT = 122;
+const PAGE_CONTENT_WIDTH = PAGE_HEADER_WIDTH;
+const PAGE_CONTENT_HEIGHT = APPLICATION_HEIGHT - PAGE_HEADER_HEIGHT;
 
 @Component({
     selector: 'uxa-preview-pane',
@@ -18,121 +23,152 @@ const PAGE_HEADER_HEIGHT = 122;
 })
 export class PreviewPaneComponent {
 
-    private _nativeElement: HTMLElement;
-    // private _svg: d3.Selection<any, {}, null, null>;
-    // private _topNavigation: d3.Selection<any, {}, null, null>;
-    // private _body: d3.Selection<any, {}, null, null>;
-    // private _logo: d3.Selection<any, {}, null, null>;
-    // private _brand: d3.Selection<any, {}, null, null>;
-    // private _header: d3.Selection<any, {}, null, null>;
-    // private _breadcrumb: d3.Selection<any, {}, null, null>;
+    @Output() onEditPages: EventEmitter<void> = new EventEmitter<void>();
 
-    private _container: d3.Selection<any, {}, null, undefined>;
-    private _application: d3.Selection<any, {}, null, undefined>;
-    private _sideNavigation: d3.Selection<any, {}, null, null>;
-    private _sideNavigationMenu: d3.Selection<any, {}, null, null>;
-    private _pageHeader: d3.Selection<any, {}, null, null>;
-    private _pageBody: d3.Selection<any, {}, null, null>;
-    private _pageTitle: d3.Selection<any, {}, null, null>;
-    private _breadcrumbs: d3.Selection<any, {}, null, null>;
-    private _logo: d3.Selection<any, {}, null, null>;
-    private _brand: d3.Selection<any, {}, null, null>;
     private _menuItems: MenuItemElement[] = [];
 
-    constructor(private _elementRef: ElementRef, private _themeService: ThemeService) {
-
-        this.createContainer();
-        this.createApplication();
-        this.createSideNavigation();
-        this.createPageHeader();
-        this.createPageBody();
-
-        // this.createContainer();
-        // this.createSideNavigation();
-        // this.createTopNavigation();
-        // this.createPageBody();
+    constructor(private _elementRef: ElementRef, private _themeService: ThemeService, private _vectorService: VectorService) {
+        this.createViewport(select(_elementRef.nativeElement));
     }
 
-    createContainer(): void {
-        this._container = select(this._elementRef.nativeElement)
-            .append('svg')
-            .attr('viewBox', `0 0 ${CONTAINER_WIDTH} ${CONTAINER_HEIGHT}`)
+    createViewport(parent: Selection): void {
+        let viewport = parent.append('svg')
+            .attr('viewBox', `0 0 ${VIEWPORT_WIDTH} ${VIEWPORT_HEIGHT}`)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%')
             .attr('height', '100%')
             .style('filter', 'drop-shadow( 0px 0px 15px #bbb)');
+
+        this.createApplication(viewport);
     }
 
-    createApplication(): void {
+    createApplication(parent: Selection): void {
 
-        this._application = this._container.append('svg')
-            .attr('x', (CONTAINER_WIDTH - APPLICATION_WIDTH) / 2)
-            .attr('y', (CONTAINER_HEIGHT - APPLICATION_HEIGHT) / 2)
+        let app = parent.append('svg')
+            .attr('x', (VIEWPORT_WIDTH - APPLICATION_WIDTH) / 2)
+            .attr('y', (VIEWPORT_HEIGHT - APPLICATION_HEIGHT) / 2)
             .attr('width', APPLICATION_WIDTH)
             .attr('height', APPLICATION_HEIGHT);
+
+        this.createSideNavigation(app);
+        this.createPageHeader(app);
+        this.createPageBody(app);
     }
 
-    createSideNavigation(): void {
+    createSideNavigation(parent: Selection): void {
 
-        this._sideNavigation = this._application.append('svg')
+        let sideNavigation = parent.append('svg')
             .attr('width', SIDE_NAVIGATION_WIDTH)
             .attr('height', '100%');
 
-        this._sideNavigation.append('rect')
+        let sideNavigtionBackground = sideNavigation.append('rect')
             .attr('width', '100%')
             .attr('height', '100%')
             .attr('fill', '#0C4751');
 
-        this._logo = this._sideNavigation.append('svg:image')
+        let logo = sideNavigation.append('svg:image')
             .attr('x', 28)
             .attr('y', 69)
             .attr('width', 47)
             .attr('height', 47)
-            .attr('xlink:href', 'https://uxaspects.github.io/UXAspects/assets/img/UX-graphic.png');
+            .attr('xlink:href', require('../../assets/img/UX-graphic.png'));
 
-        this._brand = this._sideNavigation.append('text')
+        let brand = sideNavigation.append('text')
             .attr('x', 78)
             .attr('y', 100)
             .attr('fill', '#fff')
             .style('font-weight', 200)
-            .style('font-size', 20)
+            .style('font-size', '20px')
             .text('UX Aspects');
 
-        this._sideNavigation.append('g')
-            .html(require('!!svg-inline-loader!../../assets/icons/menu.svg'))
-            .select('svg')
+        sideNavigation.append('g')
+            .append(() => IconSet.getIconHtml(IconSet.menu))
             .attr('x', 24)
             .attr('y', 24)
             .attr('width', 20)
             .attr('height', 20)
             .attr('fill', '#fff');
 
-        this._sideNavigationMenu = this._sideNavigation.append('svg')
+
+        this.createSideNavigationMenu(sideNavigation);
+
+        // watch for theme changes
+        this._themeService.sideNavigation.subscribe(color => sideNavigtionBackground.attr('fill', color));
+        this._themeService.name.subscribe(name => brand.text(name));
+        this._themeService.logo.subscribe((filelist: any) => {
+
+            // if the value is no a file list then set to default
+            if (!filelist || !(filelist instanceof FileList)) {
+                return logo.attr('xlink:href', require('../../assets/img/UX-graphic.png'));
+            }
+
+            // if it is a file list then get the image
+            let files = filelist as FileList;
+            logo.attr('xlink:href', URL.createObjectURL(files.item(0)));
+        });
+    }
+
+    createSideNavigationMenu(parent: Selection): void {
+
+        let menu = parent.append('svg')
+            .attr('class', 'side-menu-item')
             .attr('x', 0)
             .attr('y', PAGE_HEADER_HEIGHT);
 
-        this.createSideNavigationItems();
+        let createBtn = parent.append('svg')
+            .attr('x', 15)
+            .attr('y', 15 + PAGE_HEADER_HEIGHT + this._themeService.pages.getValue().length * SIDE_NAVIGATION_MENU_ITEM_HEIGHT)
+            .attr('width', SIDE_NAVIGATION_WIDTH - 30)
+            .attr('height', SIDE_NAVIGATION_MENU_ITEM_HEIGHT - 10);
+
+        let createBtnFillTransition = transition('fillTransition')
+            .duration(300)
+            .ease(easeLinear);
+
+        let createBtnBackground = createBtn.append('rect')
+            .attr('x', 1)
+            .attr('y', 1)
+            .attr('width', '100%')
+            .attr('height', '100%')
+            .attr('fill', 'rgba(255, 255, 255, 0.1)')
+            .style('cursor', 'pointer')
+            .on('mouseenter', () => createBtnBackground.transition('fillTransition').attr('fill', 'rgba(255, 255, 255, 0.2)'))
+            .on('mouseleave', () => createBtnBackground.transition('fillTransition').attr('fill', 'rgba(255, 255, 255, 0.1)'))
+            .on('click', () => this.onEditPages.emit());
+
+        let createBtnLabel = createBtn.append('text')
+            .attr('x', '50%')
+            .attr('y', '25')
+            .attr('fill', '#fff')
+            .attr('text-anchor', 'middle')
+            .style('pointer-events', 'none')
+            .text('Edit Pages');
+
+        this._themeService.pages.subscribe(pages => {
+
+            // remove all existing page menu items
+            menu.selectAll('.side-menu-item').remove();
+
+            // loop through each page and create a new menu item
+            pages.forEach((page, idx) => this.createSideNavigationMenuItem(menu, page).attr('y', idx * SIDE_NAVIGATION_MENU_ITEM_HEIGHT));
+        });
+
     }
 
-    createSideNavigationItems(): void {
+    createSideNavigationMenuItem(menu: Selection, menuItemData: PageData): Selection {
 
-        // clear any existing items in the menu
-        this._sideNavigationMenu.empty();
-
-        let menuItem = this._sideNavigationMenu.append('svg')
+        let menuItem = menu.append('svg')
             .attr('x', 0)
-            .attr('y', 0)
             .attr('width', '100%')
             .attr('height', SIDE_NAVIGATION_MENU_ITEM_HEIGHT);
 
         let indicator = menuItem.append('rect')
             .attr('width', 4)
             .attr('height', '100%')
-            .attr('fill', '#008e89');
+            .attr('fill', this._themeService.primary.getValue());
 
         let icon = menuItem.append('g')
-            .html(require('!!svg-inline-loader!../../assets/icons/clone.svg'))
-            .select('svg')
+            .append(() => IconSet.getIconHtml(IconSet[menuItemData.icon]))
             .attr('x', '28')
             .attr('y', '15')
             .attr('width', '20')
@@ -144,228 +180,119 @@ export class PreviewPaneComponent {
             .attr('y', 30)
             .attr('fill', '#fff')
             .style('font-weight', 600)
-            .style('font-size', 15)
-            .text('List Views');
+            .style('font-size', '15px')
+            .text(menuItemData.text);
+
+        this._themeService.primary.subscribe(color => indicator.attr('fill', color));
+
+        return menuItem;
     }
 
-    createPageHeader(): void {
+    createPageHeader(parent: Selection): void {
 
-        this._pageHeader = this._application.append('svg')
+        let header = parent.append('svg')
             .attr('x', SIDE_NAVIGATION_WIDTH)
-            .attr('width', APPLICATION_WIDTH - SIDE_NAVIGATION_WIDTH)
+            .attr('width', PAGE_HEADER_WIDTH)
             .attr('height', PAGE_HEADER_HEIGHT);
 
-        this._pageHeader.append('rect')
+        let background = header.append('rect')
             .attr('width', '100%')
             .attr('height', '100%')
             .attr('fill', '#fff');
 
-        this._pageTitle = this._pageHeader.append('text')
+        let title = header.append('text')
             .attr('x', 28)
             .attr('y', 105)
             .style('font-weight', 200)
-            .style('font-size', 40)
+            .style('font-size', '40px')
             .text('List View 1');
 
-        this._breadcrumbs = this._pageHeader.append('text')
+        let breadcrumbs = header.append('text')
             .attr('x', 31)
             .attr('y', 70)
             .style('font-weight', 200)
-            .style('font-size', 14)
+            .style('font-size', '14px')
             .style('opacity', 0.7)
             .text('List Views');
 
+        this.createPageHeaderMenu(header);
+
+        this._themeService.pageHeader.subscribe(color => background.attr('fill', color));
     }
 
-    createPageBody(): void {
+    createPageBody(parent: Selection): void {
 
-        this._pageBody = this._application.append('svg')
+        let body = parent.append('svg')
             .attr('x', SIDE_NAVIGATION_WIDTH)
             .attr('y', PAGE_HEADER_HEIGHT)
-            .attr('width', APPLICATION_WIDTH - SIDE_NAVIGATION_WIDTH)
-            .attr('height', APPLICATION_HEIGHT - PAGE_HEADER_HEIGHT);
+            .attr('width', PAGE_CONTENT_WIDTH)
+            .attr('height', PAGE_CONTENT_HEIGHT);
 
-        this._pageBody.append('rect')
+        let background = body.append('rect')
             .attr('width', '100%')
             .attr('height', '100%')
             .attr('fill', '#fafafa');
 
+        this._themeService.background.subscribe(color => background.attr('fill', color));
+
+        // Add Sample Page Content
+        let table = this._vectorService.createTable()
+            .attr('x', 20)
+            .attr('y', 20)
+            .attr('width', PAGE_CONTENT_WIDTH - 40);
+
+        body.append(() => table.node());
+
+        // Add Pagination Controls
+        let pagination = this._vectorService.createPagination(5);
+        pagination.attr('x', 20).attr('y', PAGE_CONTENT_HEIGHT - 60);
+
+        body.append(() => pagination.node());
     }
 
-    // createContainer(): void {
-    //     this._svg = select(this._elementRef.nativeElement)
-    //         .append('svg')
-    //         .attr('viewBox', '0 0 1100 1100')
-    //         .attr('preserveAspectRatio', 'xMidYMid meet')
-    //         .attr('width', '100%')
-    //         .attr('height', '100%')
-    //         .attr('class', 'preview-container')
-    //         .style('filter', 'drop-shadow( 0px 0px 15px #bbb)');
-    // }
+    createPageHeaderMenu(parent: Selection) {
 
-    // createSideNavigation(): void {
-    //     this._sideNavigation = this._svg.append('rect')
-    //         .attr('x', 50)
-    //         .attr('y', 50)
-    //         .attr('width', 200)
-    //         .attr('height', 600)
-    //         .attr('fill', '#333');
+        let container = parent.append('svg')
+            .attr('x', PAGE_HEADER_WIDTH - 130)
+            .attr('y', 20);
 
-    //     this._themeService.sideNavigation.subscribe(color => {
-    //         this._sideNavigation.attr('fill', color);
-    //     });
+        let search = container.append('g')
+            .append(() => IconSet.getIconHtml(IconSet.search))
+            .attr('x', '0')
+            .attr('y', '0')
+            .attr('width', '20')
+            .attr('height', '20')
+            .attr('fill', '#333');
 
-    //     this._themeService.pages.subscribe(pages => {
-    //         this.removeAllMenuItems();
+        let notifications = container.append('g')
+            .append(() => IconSet.getIconHtml(IconSet.notification))
+            .attr('x', '40')
+            .attr('y', '0')
+            .attr('width', '20')
+            .attr('height', '20')
+            .attr('fill', '#333');
 
-    //         pages.forEach((page, idx) => {
-    //             this.createMenuItem({ active: idx === 0, text: page }, idx);
-    //         });
-    //     });
+        let settings = container.append('g')
+            .append(() => IconSet.getIconHtml(IconSet.actions))
+            .attr('x', '80')
+            .attr('y', '0')
+            .attr('width', '20')
+            .attr('height', '20')
+            .attr('fill', '#333');
 
-    //     this._themeService.primary.subscribe(color => {
-    //         this._menuItems.forEach(item => item.indicator.attr('fill', color));
-    //     });
-
-    //     this.createLogo();
-    //     this.createBrand();
-    // }
-
-    // createTopNavigation(): void {
-    //     this._topNavigation = this._svg.append('rect')
-    //         .attr('x', 250)
-    //         .attr('y', 50)
-    //         .attr('width', 800)
-    //         .attr('height', 100)
-    //         .attr('fill', '#fff');
-
-    //     this._themeService.topNavigation.subscribe(color => {
-    //         this._topNavigation.attr('fill', color);
-    //     });
-
-    //     this.createPageTitle();
-    //     this.createBreadcrumbs();
-    // }
-
-    // createPageBody(): void {
-    //     this._body = this._svg.append('rect')
-    //         .attr('x', 250)
-    //         .attr('y', 150)
-    //         .attr('width', 800)
-    //         .attr('height', 500)
-    //         .attr('fill', '#fafafa');
-
-    //     this._themeService.background.subscribe(color => {
-    //         this._body.attr('fill', color);
-    //     });
-    // }
-
-    // createLogo(): void {
-    //     this._logo = this._svg.append('svg:image')
-    //         .attr('x', 60)
-    //         .attr('y', 100)
-    //         .attr('width', 50)
-    //         .attr('height', 40)
-    //         .attr('xlink:href', 'https://uxaspects.github.io/UXAspects/assets/img/UX-graphic.png');
-
-    //     this._themeService.logo.subscribe(logo => {
-    //         this._logo.attr('xlink:href', logo);
-    //     });
-    // }
-
-    // createPageTitle(): void {
-    //     this._header = this._svg.append('text')
-    //         .attr('x', 270)
-    //         .attr('y', 130)
-    //         .style('font-weight', 200)
-    //         .style('font-size', 30)
-    //         .text('List View 1');
-
-    //     this._themeService.pages.subscribe(pages => {
-    //         this._header.text(this._menuItems.length === 0 ? '' : this._menuItems[0].text.text());
-    //     });
-    // }
-
-    // createBrand(): void {
-    //     this._brand = this._svg.append('text')
-    //         .attr('x', 120)
-    //         .attr('y', 130)
-    //         .attr('width', 50)
-    //         .attr('height', 40)
-    //         .attr('fill', '#fff')
-    //         .text('Brand');
-
-    //     this._themeService.name.subscribe(name => {
-    //         this._brand.text(name);
-    //     });
-    // }
-
-    // createBreadcrumbs(): void {
-    //     this._breadcrumb = this._svg.append('text')
-    //         .attr('x', 270)
-    //         .attr('y', 103)
-    //         .style('font-weight', 100)
-    //         .style('font-size', 10)
-    //         .style('opacity', 0.7)
-    //         .text('Breadcrumb');
-    // }
-
-    // removeAllMenuItems() {
-    //     this._menuItems.forEach(item => {
-    //         item.background.remove();
-    //         item.indicator.remove();
-    //         item.text.remove();
-    //     });
-
-    //     this._menuItems = [];
-    // }
-
-    // createMenuItem(menu: SideMenuItem, index: number): void {
-
-    //     let x = 50;
-    //     let y = 150 + (index * 40);
-
-    //     let background = this._svg.append('rect')
-    //         .attr('x', x)
-    //         .attr('y', y)
-    //         .attr('width', 200)
-    //         .attr('height', 40)
-    //         .attr('opacity', menu.active ? 0.1 : 0)
-    //         .attr('fill', '#000');
-
-    //     let indicator = this._svg.append('rect')
-    //         .attr('x', x)
-    //         .attr('y', y)
-    //         .attr('width', 5)
-    //         .attr('height', 40)
-    //         .attr('opacity', menu.active ? 1 : 0)
-    //         .attr('fill', this._themeService.primary.value);
-
-    //     let text = this._svg.append('text')
-    //         .attr('x', x + 25)
-    //         .attr('y', y + 25)
-    //         .style('font-weight', 100)
-    //         .style('font-size', 14)
-    //         .attr('fill', '#fff')
-    //         .text(menu.text);
-
-    //     this._menuItems.push({
-    //         background: background,
-    //         indicator: indicator,
-    //         text: text
-    //     });
-
-    // }
-
+    }
 }
 
 export interface SideMenuItem {
+    icon: string;
     text: string;
     active: boolean;
 }
 
 export interface MenuItemElement {
-    background: d3.Selection<any, {}, null, null>;
-    indicator: d3.Selection<any, {}, null, null>;
-    text: d3.Selection<any, {}, null, null>;
+    background: Selection;
+    indicator: Selection;
+    text: Selection;
 }
+
+export type Selection = d3.Selection<any, {}, null, undefined>;

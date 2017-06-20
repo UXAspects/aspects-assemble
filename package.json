@@ -16,7 +16,7 @@
     "customize"
   ],
   "author": "Ashley Hunter",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "dependencies": {
     "@angular/common": "~4.2.1",
     "@angular/compiler": "~4.2.1",
@@ -28,14 +28,20 @@
     "@angular/router": "~4.2.1",
     "@ux-aspects/ux-aspects": "^1.2.0",
     "angular4-color-picker": "^1.4.2",
+    "bootstrap": "^3.3.7",
+    "chance": "^1.0.10",
+    "color": "^1.0.3",
+    "color-js": "^1.0.4",
     "core-js": "^2.4.1",
     "d3": "^4.9.1",
+    "ngx-bootstrap": "^1.7.1",
     "rxjs": "5.4.0",
     "source-sans-pro": "^2.0.10",
     "svg-inline-loader": "^0.7.1",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {
+    "@types/chance": "^0.7.33",
     "@types/d3": "^4.9.0",
     "@types/node": "^7.0.29",
     "angular2-template-loader": "^0.6.2",
