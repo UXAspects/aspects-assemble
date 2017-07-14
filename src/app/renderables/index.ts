@@ -8,3 +8,4 @@ export * from './controls/table-row-control';
 export * from './controls/viewport-control';
 
 export * from './layouts/list-view-layout';
+export * from './layouts/dashboard-layout';

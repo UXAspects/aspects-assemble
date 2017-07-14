@@ -14,7 +14,7 @@ export class ViewportControl extends Renderable {
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%')
             .attr('height', '100%')
-            .style('filter', 'drop-shadow( 0px 0px 15px #bbb)');
+            .style('filter', 'drop-shadow(0px 0px 15px #bbb)');
     }
 
     getVectorElement(): VectorElement {

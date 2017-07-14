@@ -27,16 +27,16 @@ export class StateService {
     constructor() {
 
         // create a starter page
-        let listViewPage = {
+        let startPage = {
             icon: 'clone',
-            text: 'List View 1',
-            breadcrumbs: ['List Views'],
+            text: 'Dashboard',
+            breadcrumbs: ['Overview'],
             active: true,
-            layout: PageLayout.ListView
+            layout: PageLayout.Dashboard
         };
 
-        this.pages = new BehaviorSubject<PageData[]>([ listViewPage ]);
-        this.activePage = new BehaviorSubject<PageData>(listViewPage);
+        this.pages = new BehaviorSubject<PageData[]>([ startPage ]);
+        this.activePage = new BehaviorSubject<PageData>(startPage);
     }
 }
 
@@ -49,5 +49,6 @@ export interface PageData {
 }
 
 export enum PageLayout {
-    ListView
+    ListView,
+    Dashboard
 }

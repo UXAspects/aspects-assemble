@@ -18,9 +18,7 @@ export class SideNavigationControl extends Renderable {
         super();
 
         // create a wrapper observable for the logo
-        let logo$ = Observable.create((observer: Observer<string>) =>
-            stateServiceInstance.logo.subscribe((src: string | FileList) =>
-                src instanceof FileList ? observer.next(URL.createObjectURL(src.item(0))) : observer.next(src)));
+        let logo$ = stateServiceInstance.logo.map((src: string | FileList) => src instanceof FileList ? URL.createObjectURL(src.item(0)) : src);
 
         let background = new VectorElement('rect')
             .attr('width', '100%')

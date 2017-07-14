@@ -2,6 +2,7 @@ import { Renderable, VectorElement } from '../renderable';
 import { PAGE_HEADER_WIDTH, PAGE_HEADER_HEIGHT } from '../constants';
 import { IconService } from '../../services/icon/icon.service';
 import { stateServiceInstance } from '../../app.component';
+import { PageData } from '../../services/state/state.service';
 
 export class PageHeaderControl extends Renderable {
 
@@ -10,6 +11,9 @@ export class PageHeaderControl extends Renderable {
 
     constructor() {
         super();
+
+        let pageTitle$ = stateServiceInstance.activePage.map((page: PageData) => page.text);
+        let breadcrumbs$ = stateServiceInstance.activePage.map((page: PageData) => page.breadcrumbs.join(' > '));
 
         let background = new VectorElement('rect')
             .attr('width', '100%')
@@ -21,7 +25,7 @@ export class PageHeaderControl extends Renderable {
             .attr('y', 105)
             .style('font-weight', '200')
             .style('font-size', '40px')
-            .text('List View 1');
+            .text(pageTitle$);
 
         let breadcrumbs = new VectorElement('text')
             .attr('x', 31)
@@ -29,7 +33,7 @@ export class PageHeaderControl extends Renderable {
             .style('font-weight', '200')
             .style('font-size', '14px')
             .style('opacity', '0.7')
-            .text('List Views');
+            .text(breadcrumbs$);
 
         // create page header icon menus
         let search = new VectorElement(this._iconService.getIconHtml(this._iconService.search))

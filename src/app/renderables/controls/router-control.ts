@@ -2,7 +2,7 @@ import { Renderable, VectorElement } from '../renderable';
 import { PAGE_CONTENT_WIDTH, PAGE_CONTENT_HEIGHT, PAGE_CONTENT_HORIZONTAL_PADDING, PAGE_CONTENT_VERTICAL_PADDING } from '../constants';
 import { PageData, PageLayout } from '../../services/state/state.service';
 import { stateServiceInstance } from '../../app.component';
-import { ListViewLayout } from '../layouts/list-view-layout';
+import { ListViewLayout, DashboardLayout } from '../index';
 
 export class RouterControl extends Renderable {
 
@@ -31,6 +31,10 @@ export class RouterControl extends Renderable {
 
             case PageLayout.ListView:
                 this._layout = new ListViewLayout();
+                break;
+
+            case PageLayout.Dashboard:
+                this._layout = new DashboardLayout();
                 break;
         }
 

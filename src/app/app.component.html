@@ -67,25 +67,12 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Alternate 1</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.alternate1 | async" (colorPickerChange)="setColor(stateService.theme.alternate1, $event)"
-                    [style.background]="stateService.theme.alternate1 | async" [value]="stateService.theme.alternate1 | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.alternate1 | async" />
+                <label class="form-label">Warning</label>
+                <input class="form-control color-input" [colorPicker]="stateService.theme.warning | async" (colorPickerChange)="setColor(stateService.theme.warning, $event)"
+                    [style.background]="stateService.theme.warning | async" [value]="stateService.theme.warning | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.warning | async" />
             </div>
-
-            <div class="form-group">
-                <label class="form-label">Alternate 2</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.alternate2 | async" (colorPickerChange)="setColor(stateService.theme.alternate2, $event)"
-                    [style.background]="stateService.theme.alternate2 | async" [value]="stateService.theme.alternate2 | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.alternate2 | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Alternate 3</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.alternate3 | async" (colorPickerChange)="setColor(stateService.theme.alternate3, $event)"
-                    [style.background]="stateService.theme.alternate3 | async" [value]="stateService.theme.alternate3 | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.alternate3 | async" />
-            </div>
+                
         </uxa-property-box>
 
     </uxa-properties-pane>
