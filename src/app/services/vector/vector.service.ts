@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select } from 'd3';
-import { ThemeService } from '../theme/theme.service';
-import { IconSet } from '../../directives/icon/icon.directive';
+import { StateService } from '../state/state.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'chance';
@@ -16,7 +15,7 @@ const PAGINATION_BUTTON_HEIGHT = 34;
 @Injectable()
 export class VectorService {
 
-    constructor(private _themeService: ThemeService) { }
+    constructor(private _stateService: StateService) { }
 
     createTable(): Selection {
 
@@ -55,12 +54,12 @@ export class VectorService {
             let rowLabel = row.append('text')
                 .attr('x', `${((idx / columns.length) * 100) + 2}%`)
                 .attr('y', 25)
-                .attr('fill', isHeader ? '#333' : this._themeService.textColor.getValue())
+                .attr('fill', isHeader ? '#333' : this._stateService.theme.textColor.getValue())
                 .attr('font-weight', isHeader ? 600 : 500)
                 .text(column);
 
             if (!isHeader) {
-                this._themeService.textColor.subscribe(color => rowLabel.attr('fill', color));
+                this._stateService.theme.textColor.subscribe(color => rowLabel.attr('fill', color));
             }
         });
 
@@ -107,7 +106,7 @@ export class VectorService {
 
         for (let idx = 0; idx < pageCount; idx++) {
 
-            let button = this.createButton(`${idx + 1}`, idx === 0 ? this._themeService.primary : this._themeService.secondary, idx === 0 ? '#fff' : '#999', 45, 35, idx === 0 ? this._themeService.primary : '#ccc')
+            let button = this.createButton(`${idx + 1}`, idx === 0 ? this._stateService.theme.primary : this._stateService.theme.secondary, idx === 0 ? '#fff' : '#999', 45, 35, idx === 0 ? this._stateService.theme.primary : '#ccc')
                 .attr('x', PAGINATION_BUTTON_WIDTH * idx)
                 .attr('width', PAGINATION_BUTTON_WIDTH)
                 .attr('height', PAGINATION_BUTTON_HEIGHT);

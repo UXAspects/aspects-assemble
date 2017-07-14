@@ -2,7 +2,7 @@
 
 <div class="main-content">
 
-    <uxa-preview-pane (onEditPages)="editPages()"></uxa-preview-pane>
+    <uxa-preview-pane (onAddPage)="addPageModal.show()"></uxa-preview-pane>
 
     <uxa-properties-pane>
 
@@ -10,81 +10,81 @@
 
             <div class="form-group">
                 <label class="form-label">Application Name</label>
-                <input type="text" [ngModel]="themeService.name | async" (ngModelChange)="themeService.name.next($event)" placeholder="My Application"
+                <input type="text" [ngModel]="stateService.name | async" (ngModelChange)="stateService.name.next($event)" placeholder="My Application"
                     class="form-control">
             </div>
 
             <div class="form-group">
                 <label class="form-label">Logo</label>
-                <input #logoUpload type="file" (change)="themeService.logo.next(logoUpload.files)" placeholder="logo.png"
-                    class="form-control">
+                <input #logoUpload type="file" (change)="stateService.logo.next(logoUpload.files)" placeholder="logo.png" class="form-control">
             </div>
 
         </uxa-property-box>
 
         <uxa-property-box header="Theme">
 
+            <label class="form-label">Page Background</label>
+
             <div class="form-group">
-                <label class="form-label">Page Background</label>
-                <input class="form-control color-input" [colorPicker]="themeService.background | async" (colorPickerChange)="setColor(themeService.background, $event)"
-                    [style.background]="themeService.background | async" [value]="themeService.background | async" cpPosition="left" [colorInverse]="themeService.background | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.background | async" (colorPickerChange)="setColor(stateService.theme.background, $event)"
+                    [style.background]="stateService.theme.background | async" [value]="stateService.theme.background | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.background | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Text Color</label>
-                <input class="form-control color-input" [colorPicker]="themeService.textColor | async" (colorPickerChange)="setColor(themeService.textColor, $event)"
-                    [style.background]="themeService.textColor | async" [value]="themeService.textColor | async" cpPosition="left" [colorInverse]="themeService.textColor | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.textColor | async" (colorPickerChange)="setColor(stateService.theme.textColor, $event)"
+                    [style.background]="stateService.theme.textColor | async" [value]="stateService.theme.textColor | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.textColor | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Page Header</label>
-                <input class="form-control color-input" [colorPicker]="themeService.pageHeader | async" (colorPickerChange)="setColor(themeService.pageHeader, $event)"
-                    [style.background]="themeService.pageHeader | async" [value]="themeService.pageHeader | async" cpPosition="left" [colorInverse]="themeService.pageHeader | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.pageHeader | async" (colorPickerChange)="setColor(stateService.theme.pageHeader, $event)"
+                    [style.background]="stateService.theme.pageHeader | async" [value]="stateService.theme.pageHeader | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.pageHeader | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Side Navigation</label>
-                <input class="form-control color-input" [colorPicker]="themeService.sideNavigation | async" (colorPickerChange)="setColor(themeService.sideNavigation, $event)"
-                    [style.background]="themeService.sideNavigation | async" [value]="themeService.sideNavigation | async" cpPosition="left" [colorInverse]="themeService.sideNavigation | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.sideNavigation | async" (colorPickerChange)="setColor(stateService.theme.sideNavigation, $event)"
+                    [style.background]="stateService.theme.sideNavigation | async" [value]="stateService.theme.sideNavigation | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.sideNavigation | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Primary</label>
-                <input class="form-control color-input" [colorPicker]="themeService.primary | async" (colorPickerChange)="setColor(themeService.primary, $event)"
-                    [style.background]="themeService.primary | async" [value]="themeService.primary | async" cpPosition="left" [colorInverse]="themeService.primary | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.primary | async" (colorPickerChange)="setColor(stateService.theme.primary, $event)"
+                    [style.background]="stateService.theme.primary | async" [value]="stateService.theme.primary | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.primary | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Accent</label>
-                <input class="form-control color-input" [colorPicker]="themeService.accent | async" (colorPickerChange)="setColor(themeService.accent, $event)"
-                    [style.background]="themeService.accent | async" [value]="themeService.accent | async" cpPosition="left" [colorInverse]="themeService.accent | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.accent | async" (colorPickerChange)="setColor(stateService.theme.accent, $event)"
+                    [style.background]="stateService.theme.accent | async" [value]="stateService.theme.accent | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.accent | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Alternate 1</label>
-                <input class="form-control color-input" [colorPicker]="themeService.alternate1 | async" (colorPickerChange)="setColor(themeService.alternate1, $event)"
-                    [style.background]="themeService.alternate1 | async" [value]="themeService.alternate1 | async" cpPosition="left" [colorInverse]="themeService.alternate1 | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.alternate1 | async" (colorPickerChange)="setColor(stateService.theme.alternate1, $event)"
+                    [style.background]="stateService.theme.alternate1 | async" [value]="stateService.theme.alternate1 | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.alternate1 | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Alternate 2</label>
-                <input class="form-control color-input" [colorPicker]="themeService.alternate2 | async" (colorPickerChange)="setColor(themeService.alternate2, $event)"
-                    [style.background]="themeService.alternate2 | async" [value]="themeService.alternate2 | async" cpPosition="left" [colorInverse]="themeService.alternate2 | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.alternate2 | async" (colorPickerChange)="setColor(stateService.theme.alternate2, $event)"
+                    [style.background]="stateService.theme.alternate2 | async" [value]="stateService.theme.alternate2 | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.alternate2 | async" />
             </div>
 
             <div class="form-group">
                 <label class="form-label">Alternate 3</label>
-                <input class="form-control color-input" [colorPicker]="themeService.alternate3 | async" (colorPickerChange)="setColor(themeService.alternate3, $event)"
-                    [style.background]="themeService.alternate3 | async" [value]="themeService.alternate3 | async" cpPosition="left" [colorInverse]="themeService.alternate3 | async"
-                />
+                <input class="form-control color-input" [colorPicker]="stateService.theme.alternate3 | async" (colorPickerChange)="setColor(stateService.theme.alternate3, $event)"
+                    [style.background]="stateService.theme.alternate3 | async" [value]="stateService.theme.alternate3 | async" cpPosition="left"
+                    [colorInverse]="stateService.theme.alternate3 | async" />
             </div>
         </uxa-property-box>
 
@@ -95,57 +95,63 @@
 
 
 <!-- Create Not Currently Available Modal -->
-<div class="modal square-modal-window fade" bsModal #comingSoonModal="bs-modal" [config]="{ backdrop: 'static' }"
-     tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header dark-modal-header">
-        <h4 class="modal-title pull-left">Coming Soon</h4>
-      </div>
-      <div class="modal-body">
-        This feature is coming soon!
-      </div>
-      <div class="modal-footer">
-          <button class="btn button-primary" (click)="comingSoonModal.hide()">Ok</button>
-      </div>
+<div class="modal square-modal-window fade" bsModal #comingSoonModal="bs-modal" [config]="{ backdrop: 'static' }" tabindex="-1"
+    role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header dark-modal-header">
+                <h4 class="modal-title pull-left">Coming Soon</h4>
+            </div>
+            <div class="modal-body">
+                This feature is coming soon!
+            </div>
+            <div class="modal-footer">
+                <button class="btn button-primary" (click)="comingSoonModal.hide()">Ok</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
 <!-- Create Edit Pages Modal -->
-<div class="modal square-modal-window fade" bsModal #editPagesModal="bs-modal" [config]="{ backdrop: 'static' }"
-     tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header dark-modal-header">
-        <h4 class="modal-title pull-left">Edit Pages</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Icon</th>
-                    <th>Name</th>
-                    <th>Breadcrumbs</th>
-                    <th>Layout</th>
-                    <th></th>
-                </tr>
-            </thead>
+<div class="modal square-modal-window fade" bsModal #addPageModal="bs-modal" [config]="{ backdrop: 'static' }" tabindex="-1"
+    role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header dark-modal-header">
+                <h4 class="modal-title pull-left">Add Page</h4>
+            </div>
+            <div class="modal-body">
 
-            <tbody>
-                <tr *ngFor="let page of themeService.pages | async">
-                    <td><span icon="caretDownFilled"></span></td>
-                    <td>{{ page.text }}</td>
-                    <td>{{ page.breadcrumbs.join(', ') }}</td>
-                    <td>List View</td>
-                </tr>
-            </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-          <button class="btn button-primary" (click)="comingSoonModal.hide()">Ok</button>
-      </div>
+                <form [formGroup]="pageForm">
+
+                    <div class="form-group">
+                        <label>Page Title</label>
+                        <input type="text" class="form-control" placeholder="List View" formControlName="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Icon</label>
+                        <input formControlName="icon" [typeahead]="icons" class="form-control icon-dropdown" typeaheadMinLength="0" [typeaheadItemTemplate]="iconTemplate"
+                            typeaheadOptionsLimit="500">
+
+                        <ng-template #iconTemplate let-item="item">
+                            <span class="hpe-icon hpe-{{ item }}"></span>
+                            <span class="m-l-sm">{{ item }}</span>
+                        </ng-template>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Layout</label>
+                        <div class="layout-option">
+                            <span class="hpe-icon hpe-list"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn button-primary" (click)="addPageModal.hide()">Ok</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

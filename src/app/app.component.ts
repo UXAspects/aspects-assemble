@@ -1,10 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { ColorPickerService } from 'angular4-color-picker';
-import { ThemeService } from './services/theme/theme.service';
+import { StateService } from './services/state/state.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { PreviewPaneComponent } from './components/preview-pane/preview-pane.component';
 import { BuilderService } from './services/builder/builder.service';
 import { ModalModule, ModalDirective } from 'ngx-bootstrap/modal';
+import { FormBuilder, Validators } from '@angular/forms';
+import { IconService } from './services/icon/icon.service';
 
 @Component({
   selector: 'uxa-app',
@@ -14,21 +16,26 @@ import { ModalModule, ModalDirective } from 'ngx-bootstrap/modal';
 export class AppComponent {
 
   @ViewChild(PreviewPaneComponent) previewPane: PreviewPaneComponent;
-  @ViewChild('editPagesModal') editPagesModal: ModalDirective;
+  @ViewChild('addPageModal') addPageModal: ModalDirective;
 
-  constructor(
-    private _colorPickerService: ColorPickerService,
-    public themeService: ThemeService,
-    private _builder: BuilderService) {
+  icons: string[];
 
+  pageForm: any;
+
+  constructor(public stateService: StateService, private _builder: BuilderService, formBuilder: FormBuilder, iconService: IconService) {
+
+      this.pageForm = formBuilder.group({
+        name: [null, Validators.required],
+        icon: [null, Validators.required]
+      });
+
+      this.icons = Object.keys(iconService).filter(name => typeof iconService[name] !== 'function').map(name => {
+        return name.replace('threeD', '3d').replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
+      });
   }
 
   setColor(subject: BehaviorSubject<String>, value: string): void {
     subject.next(value);
-  }
-
-  editPages() {
-    this.editPagesModal.show();
   }
 
   create() {
