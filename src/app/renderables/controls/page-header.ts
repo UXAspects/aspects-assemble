@@ -1,20 +1,20 @@
-import { Renderable, VectorElement } from './renderable';
-import { PAGE_HEADER_WIDTH, PAGE_HEADER_HEIGHT } from './constants';
-import { StateService } from '../services/state/state.service';
-import { IconService } from '../services/icon/icon.service';
+import { Renderable, VectorElement } from '../renderable';
+import { PAGE_HEADER_WIDTH, PAGE_HEADER_HEIGHT } from '../constants';
+import { IconService } from '../../services/icon/icon.service';
+import { stateServiceInstance } from '../../app.component';
 
-export class PageHeader extends Renderable {
+export class PageHeaderControl extends Renderable {
 
     private _header: VectorElement;
     private _iconService: IconService = new IconService();
 
-    constructor(stateService: StateService) {
+    constructor() {
         super();
 
         let background = new VectorElement('rect')
             .attr('width', '100%')
             .attr('height', '100%')
-            .attr('fill', '#fff');
+            .attr('fill', stateServiceInstance.theme.pageHeader);
 
         let title = new VectorElement('text')
             .attr('x', 28)

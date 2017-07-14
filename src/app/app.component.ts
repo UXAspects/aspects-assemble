@@ -8,6 +8,8 @@ import { ModalModule, ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IconService } from './services/icon/icon.service';
 
+export var stateServiceInstance: StateService;
+
 @Component({
   selector: 'uxa-app',
   templateUrl: './app.component.html',
@@ -23,6 +25,9 @@ export class AppComponent {
   pageForm: any;
 
   constructor(public stateService: StateService, private _builder: BuilderService, formBuilder: FormBuilder, iconService: IconService) {
+
+      // make the state service a singleton
+      stateServiceInstance = stateService;
 
       this.pageForm = formBuilder.group({
         name: [null, Validators.required],

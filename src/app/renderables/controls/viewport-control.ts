@@ -1,7 +1,7 @@
-import { Renderable, VectorElement } from './renderable';
-import { VIEWPORT_WIDTH, VIEWPORT_HEIGHT } from './constants';
+import { Renderable, VectorElement } from '../renderable';
+import { VIEWPORT_WIDTH, VIEWPORT_HEIGHT } from '../constants';
 
-export class Viewport extends Renderable {
+export class ViewportControl extends Renderable {
 
     private _viewport: VectorElement;
 

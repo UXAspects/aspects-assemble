@@ -14,7 +14,6 @@ import { IconDirective } from './directives/icon/icon.directive';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { VectorService } from './services/vector/vector.service';
 import { IconService } from './services/icon/icon.service';
 
 @NgModule({
@@ -39,7 +38,6 @@ import { IconService } from './services/icon/icon.service';
   providers: [
     StateService,
     BuilderService,
-    VectorService,
     IconService
   ],
   bootstrap: [AppComponent]

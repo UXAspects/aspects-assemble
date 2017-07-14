@@ -1,20 +1,20 @@
-import { Renderable, VectorElement } from './renderable';
-import { SIDE_NAVIGATION_MENU_ITEM_HEIGHT } from './constants';
-import { StateService } from '../services/state/state.service';
-import { IconService } from '../services/icon/icon.service';
+import { Renderable, VectorElement } from '../renderable';
+import { SIDE_NAVIGATION_MENU_ITEM_HEIGHT } from '../constants';
+import { IconService } from '../../services/icon/icon.service';
+import { stateServiceInstance } from '../../app.component';
 
-export class SideNavigationItem extends Renderable {
+export class SideNavigationItemControl extends Renderable {
 
     private _item: VectorElement;
     private _iconService: IconService = new IconService();
 
-    constructor(stateService: StateService, iconName: string, text: string, active: boolean) {
+    constructor(iconName: string, text: string, active: boolean) {
         super();
 
         let indicator = new VectorElement('rect')
             .attr('width', 4)
             .attr('height', '100%')
-            .attr('fill', stateService.theme.primary);
+            .attr('fill', stateServiceInstance.theme.primary);
 
         let icon = new VectorElement(this._iconService.getIconHtml(this._iconService[iconName]))
             .attr('x', '28')
