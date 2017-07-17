@@ -10,7 +10,7 @@
 
             <div class="form-group">
                 <label class="form-label">Application Name</label>
-                <input type="text" [ngModel]="stateService.name | async" (ngModelChange)="stateService.name.next($event)" placeholder="My Application"
+                <input type="text" [ngModel]="stateService.brand | async" (ngModelChange)="stateService.brand.next($event)" placeholder="My Application"
                     class="form-control">
             </div>
 
@@ -110,7 +110,7 @@
             </div>
             <div class="modal-body">
 
-                <form [formGroup]="pageForm">
+                <form [formGroup]="pageForm" class="create-page-form">
 
                     <div class="form-group">
                         <label>Page Title</label>
@@ -119,7 +119,7 @@
 
                     <div class="form-group">
                         <label>Icon</label>
-                        <input formControlName="icon" [typeahead]="icons" class="form-control icon-dropdown" typeaheadMinLength="0" [typeaheadItemTemplate]="iconTemplate"
+                        <input formControlName="icon" placeholder="Type to Search..." [typeahead]="icons" class="form-control icon-dropdown" typeaheadMinLength="0" [typeaheadItemTemplate]="iconTemplate"
                             typeaheadOptionsLimit="500">
 
                         <ng-template #iconTemplate let-item="item">
@@ -129,16 +129,31 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Breadcrumbs <span class="text-muted">(Comma Separated)</span></label>
+                        <input type="text" class="form-control" placeholder="Dashboard, Overview" formControlName="breadcrumbs">
+                    </div>
+
+                    <div class="form-group">
                         <label>Layout</label>
-                        <div class="layout-option">
+                        <br>
+                        <div class="layout-option" [class.active]="layout === 'list-view'" (click)="layout = 'list-view'">
                             <span class="hpe-icon hpe-list"></span>
+                            <p class="layout-option-name">List View</p>
+                        </div>
+
+                        <div class="layout-option" [class.active]="layout === 'dashboard'" (click)="layout = 'dashboard'">
+                            <span class="hpe-icon hpe-dashboard"></span>
+                            <p class="layout-option-name">Dashboard</p>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn button-primary" (click)="addPageModal.hide()">Ok</button>
+                <button class="btn button-primary" (click)="createPage(pageForm.value, pageForm.valid)">Ok</button>
+                <button class="btn button-secondary" (click)="addPageModal.hide(); pageForm.reset()">Cancel</button>
             </div>
         </div>
     </div>
 </div>
+
+<uxa-context-menu></uxa-context-menu>

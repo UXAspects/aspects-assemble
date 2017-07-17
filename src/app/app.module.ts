@@ -15,6 +15,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { IconService } from './services/icon/icon.service';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { ContextMenuService } from './services/context-menu/context-menu.service';
+import { OutsideClickDirective } from './directives/outside-click/outside-click.directive';
 
 @NgModule({
   imports: [
@@ -33,12 +36,15 @@ import { IconService } from './services/icon/icon.service';
     PreviewPaneComponent,
     PropertyBoxComponent,
     ColorInverseDirective,
-    IconDirective
+    IconDirective,
+    ContextMenuComponent,
+    OutsideClickDirective
   ],
   providers: [
     StateService,
     BuilderService,
-    IconService
+    IconService,
+    ContextMenuService
   ],
   bootstrap: [AppComponent]
 })

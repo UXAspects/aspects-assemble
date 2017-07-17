@@ -14,7 +14,7 @@ export class SideNavigationControl extends Renderable {
     private _items: SideNavigationItemControl[] = [];
     private _addButton: VectorElement;
 
-    constructor() {
+    constructor(addCallback: () => void) {
         super();
 
         // create a wrapper observable for the logo
@@ -71,6 +71,7 @@ export class SideNavigationControl extends Renderable {
             .attr('y', 15 + PAGE_HEADER_HEIGHT + stateServiceInstance.pages.getValue().length * SIDE_NAVIGATION_MENU_ITEM_HEIGHT)
             .attr('width', SIDE_NAVIGATION_WIDTH - 30)
             .attr('height', SIDE_NAVIGATION_MENU_ITEM_HEIGHT - 10)
+            .on('click', addCallback)
             .insert(buttonBackground, buttonLabel);
 
         this._navigation = new VectorElement('svg')
@@ -89,7 +90,7 @@ export class SideNavigationControl extends Renderable {
         this._items.forEach(item => this.remove(item));
 
         // create new menu items
-        this._items = pages.map(page => new SideNavigationItemControl(page.icon, page.text, page.active));
+        this._items = pages.map(page => new SideNavigationItemControl(page));
 
         // insert the new menu items
         this._items.forEach((item, index) => {

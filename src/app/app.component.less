@@ -42,8 +42,48 @@
 }
 
 .layout-option {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 1px solid #ddd;
     border-radius: 5px;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 90px;
+    margin: 10px 5px;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: inset 0px 3px 10px #ddd;
+    }
+
+    &.active {
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+        background-color: #00a7a2;
+        color: #fff;
+
+        .hpe-icon {
+            color: #fff;
+        }
+    }
+
+    .hpe-icon {
+        color: #333;
+        font-size: 30px;
+        margin-bottom: 5px;
+    }
+
+    .layout-option-name {
+        margin-bottom: 0;
+    }
+}
+
+.create-page-form {
+    .form-control {
+        &.ng-dirty, &.ng-touched {
+            &.ng-invalid {
+                border: 1px solid #ff454f;
+            }
+        }
+    }
 }

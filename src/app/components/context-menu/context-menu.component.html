@@ -1,0 +1,3 @@
+<div class="content" (uxaOutsideClick)="contextMenuService.hide()">
+    <div class="context-menu-item" *ngFor="let item of contextMenuService.items" (click)="item.select(); contextMenuService.hide()">{{ item.title }}</div>
+</div>

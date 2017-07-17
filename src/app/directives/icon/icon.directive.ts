@@ -14,7 +14,7 @@ export class IconDirective implements OnInit {
     constructor(private _elementRef: ElementRef) { }
 
     ngOnInit(): void {
-        let icon = this.icon.replace(/([a-z](?=[A-Z]))/g, '$1-').toLowerCase().replace('three', '3');
+        let icon = this.icon.replace(/([a-z](?=[A-Z]))/g, '$1-').toLowerCase();
         this.iconClass = `hpe-icon hpe-${icon}`;
     }
 

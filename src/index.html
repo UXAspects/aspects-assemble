@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Aspects Assemble</title>
-    </head>
 
-    <body>
-        <uxa-app></uxa-app>
-    </body>
+<head>
+    <title>Aspects Assemble</title>
+</head>
+
+<body>
+    <uxa-app></uxa-app>
+
+    <!-- Show Message if using IE -->
+    <div class="internet-explorer-warning" style="display: none">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center">
+                        <span class="hpe-icon hpe-alert"></span>
+                    </p>
+                    <h1 class="text-center">Browser Not Supported</h1>
+                    <h3 class="text-center">Unfortunately this browser is not supported. Please use a more modern browser.</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .internet-explorer-warning {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+        }
+
+        .internet-explorer-warning .hpe-alert {
+            color: #f78f4c;
+            font-size: 80px;
+        }
+    </style>
+</body>
+
 </html>

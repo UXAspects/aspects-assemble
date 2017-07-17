@@ -38,13 +38,46 @@ export class StateService {
         this.pages = new BehaviorSubject<PageData[]>([ startPage ]);
         this.activePage = new BehaviorSubject<PageData>(startPage);
     }
+
+    addPage(page: PageData, activate: boolean = false): void {
+        let pages = this.pages.getValue();
+        pages.push(page);
+
+        this.pages.next(pages);
+
+        if (activate) {
+            this.activePage.next(page);
+        }
+    }
+
+    removePage(page: PageData): void {
+
+        let pages = this.pages.getValue();
+
+        // if this is the only page then we can't remove it
+        if (pages.length === 1) {
+            return alert('Cannot remove page. There must be at least one page in the project.');
+        }
+
+        // remove the current page and broadcast to observers
+        this.pages.next(pages.filter(existingPage => existingPage !== page));
+
+        // check if the page being removed is currently active
+        if (this.activePage.getValue() === page) {
+
+            // get the first page
+            let firstPage = this.pages.getValue()[0];
+
+            // broadcast the change in active page
+            this.activePage.next(firstPage);
+        }
+    }
 }
 
 export interface PageData {
     icon: string;
     text: string;
     breadcrumbs: string[];
-    active: boolean;
     layout: PageLayout;
 }
 

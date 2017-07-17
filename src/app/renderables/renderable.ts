@@ -44,7 +44,7 @@ export class VectorElement {
 
     private _element: VectorElementType;
 
-    constructor(type: 'svg' | 'text'| 'circle' | 'polygon' | 'line' | 'rect' | 'g' | 'image' | VectorElementType | InlineSVG) {
+    constructor(type: 'svg' | 'text' | 'circle' | 'polygon' | 'line' | 'rect' | 'g' | 'image' | VectorElementType | InlineSVG) {
 
         if (type instanceof InlineSVG) {
             let parser = new DOMParser();
@@ -66,7 +66,11 @@ export class VectorElement {
     }
 
     attr(name: string, value: OptionalObservable<string> | OptionalObservable<number>): VectorElement {
-        toObservable<string>(value).subscribe(val => this._element.setAttributeNS(null, name, val));
+        toObservable<string>(value).subscribe(val => {
+            try {
+                this._element.setAttributeNS(null, name, val);
+            } catch (err) { }
+        });
         return this;
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter, Output, HostListener } from '@angular/core';
 import { StateService, PageData } from '../../services/state/state.service';
 import { VIEWPORT_WIDTH, APPLICATION_WIDTH, VIEWPORT_HEIGHT, APPLICATION_HEIGHT, SIDE_NAVIGATION_WIDTH, PAGE_HEADER_HEIGHT } from '../../renderables/constants';
 import { Renderable, VectorElement } from '../../renderables/renderable';
@@ -17,7 +17,7 @@ export class PreviewPaneComponent {
 
     constructor(elementRef: ElementRef, private _stateService: StateService) {
 
-        let sideNavigation = new SideNavigationControl();
+        let sideNavigation = new SideNavigationControl(() => this.onAddPage.next());
         let pageHeader = new PageHeaderControl().attr('x', SIDE_NAVIGATION_WIDTH);
         let router = new RouterControl().attr('x', SIDE_NAVIGATION_WIDTH).attr('y', PAGE_HEADER_HEIGHT);
 
@@ -31,6 +31,11 @@ export class PreviewPaneComponent {
 
         // add the viewport to the page
         elementRef.nativeElement.appendChild(viewport.getElement());
+    }
+
+    // prevent right click menu from appearing
+    @HostListener('contextmenu') onContextMenu() {
+        return false;
     }
 
 }

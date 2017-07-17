@@ -9,7 +9,6 @@ export class IconService {
         return doc.body.firstElementChild as SVGSVGElement;
     }
 
-    threeD: string = require('!!svg-inline-loader!../../assets/icons/3d.svg');
     achievement: string = require('!!svg-inline-loader!../../assets/icons/achievement.svg');
     action: string = require('!!svg-inline-loader!../../assets/icons/action.svg');
     actions: string = require('!!svg-inline-loader!../../assets/icons/actions.svg');
