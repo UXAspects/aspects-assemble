@@ -44,9 +44,12 @@ export class VectorElement {
 
     private _element: VectorElementType;
 
-    constructor(type: 'svg' | 'text'| 'circle' | 'line' | 'rect' | 'g' | 'image' | VectorElementType) {
+    constructor(type: 'svg' | 'text'| 'circle' | 'line' | 'rect' | 'g' | 'image' | VectorElementType | InlineSVG) {
 
-        if (typeof type === 'string') {
+        if (type instanceof InlineSVG) {
+            let parser = new DOMParser();
+            this._element = parser.parseFromString(type.getSVG(), 'image/svg+xml').firstElementChild as SVGSVGElement;
+        } else if (typeof type === 'string') {
             this._element = document.createElementNS('http://www.w3.org/2000/svg', type);
         } else {
             this._element = type;
@@ -90,6 +93,14 @@ export class VectorElement {
     remove(child: Insertable): VectorElement {
         this._element.removeChild(child.getElement());
         return this;
+    }
+}
+
+export class InlineSVG {
+    constructor(private _svg: string) { }
+
+    getSVG(): string {
+        return this._svg;
     }
 }
 

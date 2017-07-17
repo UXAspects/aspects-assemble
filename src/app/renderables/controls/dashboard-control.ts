@@ -1,4 +1,4 @@
-import { Renderable, VectorElement } from '../renderable';
+import { Renderable, VectorElement, InlineSVG } from '../renderable';
 import { stateServiceInstance } from '../../app.component';
 import { PAGE_CONTENT_INNER_WIDTH, PAGE_CONTENT_INNER_HEIGHT, DASHBOARD_PANEL_SPACING } from '../constants';
 
@@ -18,42 +18,79 @@ export class DashboardControl extends Renderable {
 
     createChartPanel(): VectorElement {
 
-        let panel = new VectorElement('rect')
+        let background = new VectorElement('rect')
+            .attr('width', this.getWidth(4) - 1)
+            .attr('height', this.getHeight(2) - 1)
+            .attr('stroke', '#ddd')
+            .attr('stroke-width', '1')
+            .attr('fill', stateServiceInstance.theme.pageHeader);
+
+        let chart = new VectorElement(new InlineSVG(require('!!svg-inline-loader!../../assets/svg/line-chart.svg')))
+            .attr('x', this.getX(0) + 5)
+            .attr('y', this.getY(0) + 10)
+            .attr('width', this.getWidth(4) - 40)
+            .attr('height', this.getHeight(2) - 40)
+            .attr('preserveAspectRatio', 'none');
+
+        let panel = new VectorElement('svg')
             .attr('x', this.getX(0))
             .attr('y', this.getY(0))
             .attr('width', this.getWidth(4))
             .attr('height', this.getHeight(2))
-            .attr('stroke', '#ddd')
-            .attr('stroke-width', '1')
-            .attr('fill', stateServiceInstance.theme.pageHeader);
+            .insert(background, chart);
 
         return panel;
     }
 
     createServicePanel(): VectorElement {
 
-        let panel = new VectorElement('rect')
+        let background = new VectorElement('rect')
+            .attr('width', this.getWidth(2) - 1)
+            .attr('height', this.getHeight(1) - 1)
+            .attr('stroke', '#ddd')
+            .attr('stroke-width', '1')
+            .attr('fill', stateServiceInstance.theme.pageHeader);
+
+        let content = new VectorElement(new InlineSVG(require('!!svg-inline-loader!../../assets/svg/service-panel.svg')))
+            .attr('x', -40)
+            .attr('y', 15)
+            .attr('width', this.getWidth(2) - 40)
+            .attr('height', this.getHeight(1) - 40);
+
+        let panel = new VectorElement('svg')
             .attr('x', this.getX(0))
             .attr('y', this.getY(2))
             .attr('width', this.getWidth(2))
             .attr('height', this.getHeight(1))
-            .attr('stroke', '#ddd')
-            .attr('stroke-width', '1')
-            .attr('fill', stateServiceInstance.theme.pageHeader);
+            .attr('width', this.getWidth(4))
+            .attr('height', this.getHeight(2))
+            .insert(background, content);
 
         return panel;
     }
 
     createUserPanel(): VectorElement {
 
-        let panel = new VectorElement('rect')
+        let background = new VectorElement('rect')
+            .attr('x', 1)        
+            .attr('width', this.getWidth(1) - 2)
+            .attr('height', this.getHeight(1) - 1)
+            .attr('stroke', '#ddd')
+            .attr('stroke-width', '1')
+            .attr('fill', stateServiceInstance.theme.pageHeader);
+
+        let content = new VectorElement(new InlineSVG(require('!!svg-inline-loader!../../assets/svg/users-panel.svg')))
+            .attr('x', 20)
+            .attr('y', -15)
+            .attr('width', this.getWidth(1) - 40)
+            .attr('height', this.getHeight(1) - 40);
+
+        let panel = new VectorElement('svg')
             .attr('x', this.getX(2))
             .attr('y', this.getY(2))
             .attr('width', this.getWidth(1))
             .attr('height', this.getHeight(1))
-            .attr('stroke', '#ddd')
-            .attr('stroke-width', '1')
-            .attr('fill', stateServiceInstance.theme.pageHeader);
+            .insert(background, content);
 
         return panel;
     }
