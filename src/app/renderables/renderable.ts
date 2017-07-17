@@ -44,7 +44,7 @@ export class VectorElement {
 
     private _element: VectorElementType;
 
-    constructor(type: 'svg' | 'text'| 'circle' | 'line' | 'rect' | 'g' | 'image' | VectorElementType | InlineSVG) {
+    constructor(type: 'svg' | 'text'| 'circle' | 'polygon' | 'line' | 'rect' | 'g' | 'image' | VectorElementType | InlineSVG) {
 
         if (type instanceof InlineSVG) {
             let parser = new DOMParser();
@@ -125,4 +125,4 @@ function toObservable<T>(value: OptionalObservable<any>): Observable<T> {
 
 export type Insertable = VectorElement | Renderable;
 export type OptionalObservable<T> = T | Function | Observable<T> | BehaviorSubject<T>;
-export type VectorElementType = SVGElement | SVGGElement | SVGTextElement | SVGCircleElement | SVGLineElement | SVGRectElement | SVGImageElement;
+export type VectorElementType = SVGElement | SVGGElement | SVGTextElement | SVGCircleElement | SVGLineElement | SVGRectElement | SVGImageElement | SVGPolygonElement;

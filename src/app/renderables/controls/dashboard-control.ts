@@ -97,14 +97,32 @@ export class DashboardControl extends Renderable {
 
     createAlertPanel(): VectorElement {
 
-        let panel = new VectorElement('rect')
+        let background = new VectorElement('rect')
+            .attr('x', 1)        
+            .attr('width', this.getWidth(1) - 2)
+            .attr('height', this.getHeight(1) - 1)
+            .attr('stroke', '#ddd')
+            .attr('stroke-width', '1')
+            .attr('fill', stateServiceInstance.theme.pageHeader);
+
+        let content = new VectorElement(new InlineSVG(require('!!svg-inline-loader!../../assets/svg/alert-panel.svg')))
+            .attr('x', 20)
+            .attr('y', -15)
+            .attr('width', this.getWidth(1) - 40)
+            .attr('height', this.getHeight(1) - 40);
+
+        let marker = new VectorElement('polygon')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('points', `${this.getWidth(1)} 0 ${ this.getWidth(1) - 40 } 0 ${this.getWidth(1)} 40`)
+            .attr('fill', '#f78f4c');
+
+        let panel = new VectorElement('svg')
             .attr('x', this.getX(3))
             .attr('y', this.getY(2))
             .attr('width', this.getWidth(1))
             .attr('height', this.getHeight(1))
-            .attr('stroke', '#ddd')
-            .attr('stroke-width', '1')
-            .attr('fill', stateServiceInstance.theme.pageHeader);
+            .insert(background, content, marker);
 
         return panel;
     }
