@@ -25,6 +25,7 @@ export class AppComponent {
   icons: string[] = [];
 
   pageForm: FormGroup;
+  submitted: boolean = false;
   layout: string = 'list-view';
 
   constructor(public stateService: StateService, private _builder: BuilderService, formBuilder: FormBuilder,
@@ -52,9 +53,28 @@ export class AppComponent {
 
   createPage(formData: CreatePageForm, valid: boolean): void {
 
+    this.submitted = true;
+
     // do nothing if the form is invalid
     if (!valid) {
       return;
+    }
+
+    let layout: PageLayout;
+
+    switch (this.layout) {
+      
+      case 'list-view':
+        layout = PageLayout.ListView;
+        break;
+      
+      case 'dashboard':
+        layout = PageLayout.Dashboard;
+        break;
+      
+      case 'partition-map':
+        layout = PageLayout.PartitionMap;
+        break;
     }
 
     // create the page based on the values provided
@@ -62,17 +82,22 @@ export class AppComponent {
       text: formData.name,
       icon: formData.icon.replace(/-([a-z])/g, (word: string) => word[1].toUpperCase()),
       breadcrumbs: formData.breadcrumbs ? formData.breadcrumbs.split(',').map((crumb: string) => crumb.trim()).filter((crumb: string) => crumb !== '') : [],
-      layout: this.layout === 'list-view' ? PageLayout.ListView : PageLayout.Dashboard
+      layout: layout
     };
 
     this.stateService.addPage(page, true);
 
-    // reset the form data
-    this.pageForm.reset();
-    this.layout = 'list-view';
-
     // hide the modal
     this.addPageModal.hide();
+
+    
+  }
+
+  onModalClose(): void {
+    // reset the form data
+    this.submitted = false;
+    this.pageForm.reset();
+    this.layout = 'list-view';
   }
 
   setColor(subject: BehaviorSubject<String>, value: string): void {

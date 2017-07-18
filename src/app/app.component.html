@@ -102,7 +102,7 @@
 
 <!-- Create Edit Pages Modal -->
 <div class="modal square-modal-window fade" bsModal #addPageModal="bs-modal" [config]="{ backdrop: 'static' }" tabindex="-1"
-    role="dialog" aria-hidden="true">
+    role="dialog" aria-hidden="true" (onHidden)="onModalClose()">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header dark-modal-header">
@@ -110,7 +110,7 @@
             </div>
             <div class="modal-body">
 
-                <form [formGroup]="pageForm" class="create-page-form">
+                <form [formGroup]="pageForm" class="create-page-form" [class.form-submitted]="submitted">
 
                     <div class="form-group">
                         <label>Page Title</label>
@@ -145,12 +145,17 @@
                             <span class="hpe-icon hpe-dashboard"></span>
                             <p class="layout-option-name">Dashboard</p>
                         </div>
+
+                        <div class="layout-option" [class.active]="layout === 'partition-map'" (click)="layout = 'partition-map'">
+                            <span class="hpe-icon hpe-bar-chart"></span>
+                            <p class="layout-option-name">Partition Map</p>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn button-primary" (click)="createPage(pageForm.value, pageForm.valid)">Ok</button>
-                <button class="btn button-secondary" (click)="addPageModal.hide(); pageForm.reset()">Cancel</button>
+                <button class="btn button-secondary" (click)="addPageModal.hide()">Cancel</button>
             </div>
         </div>
     </div>

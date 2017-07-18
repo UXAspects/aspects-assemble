@@ -44,7 +44,7 @@ export class VectorElement {
 
     private _element: VectorElementType;
 
-    constructor(type: 'svg' | 'text' | 'circle' | 'polygon' | 'line' | 'rect' | 'g' | 'image' | VectorElementType | InlineSVG) {
+    constructor(type: VectorString | VectorElementType | InlineSVG) {
 
         if (type instanceof InlineSVG) {
             let parser = new DOMParser();
@@ -58,6 +58,11 @@ export class VectorElement {
 
     getElement(): VectorElementType {
         return this._element;
+    }
+
+    clone(): VectorElement {
+        let node = this.getElement().cloneNode(true) as VectorElementType;
+        return new VectorElement(node);
     }
 
     style(property: string, value: OptionalObservable<string>): VectorElement {
@@ -129,4 +134,5 @@ function toObservable<T>(value: OptionalObservable<any>): Observable<T> {
 
 export type Insertable = VectorElement | Renderable;
 export type OptionalObservable<T> = T | Function | Observable<T> | BehaviorSubject<T>;
-export type VectorElementType = SVGElement | SVGGElement | SVGTextElement | SVGCircleElement | SVGLineElement | SVGRectElement | SVGImageElement | SVGPolygonElement;
+export type VectorElementType = SVGElement | SVGGElement | SVGTextElement | SVGTSpanElement | SVGCircleElement | SVGLineElement | SVGRectElement | SVGImageElement | SVGPolygonElement | SVGDefsElement | SVGLinearGradientElement | SVGStopElement;
+export type VectorString = 'svg' | 'text' | 'tspan' | 'circle' | 'polygon' | 'line' | 'rect' | 'g' | 'image' | 'defs' | 'linearGradient' | 'stop';

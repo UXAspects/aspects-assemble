@@ -27,12 +27,11 @@ export class StateService {
     constructor() {
 
         // create a starter page
-        let startPage = {
-            icon: 'clone',
-            text: 'Dashboard',
+        let startPage: PageData = {
+            icon: 'list',
+            text: 'List View',
             breadcrumbs: ['Overview'],
-            active: true,
-            layout: PageLayout.Dashboard
+            layout: PageLayout.ListView
         };
 
         this.pages = new BehaviorSubject<PageData[]>([ startPage ]);
@@ -83,5 +82,6 @@ export interface PageData {
 
 export enum PageLayout {
     ListView,
-    Dashboard
+    Dashboard,
+    PartitionMap
 }
