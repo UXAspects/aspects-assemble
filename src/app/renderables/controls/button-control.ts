@@ -84,35 +84,3 @@ export enum ButtonType {
     Accent,
     Warning
 }
-
-
-// let button = select(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
-//     .attr('width', width)
-//     .attr('height', height);
-
-// let border = button.append('rect')
-//     .attr('x', 0)
-//     .attr('y', 0)
-//     .attr('width', width)
-//     .attr('height', height)
-//     .attr('shape-rendering', 'crispEdges');
-
-
-// let background = button.append('rect')
-//     .attr('x', 1)
-//     .attr('y', 2)
-//     .attr('width', width - 2)
-//     .attr('height', height - 4)
-//     .attr('shape-rendering', 'crispEdges');
-
-// let label = button.append('text')
-//     .attr('x', '50%')
-//     .attr('y', '65%')
-//     .attr('text-anchor', 'middle');
-
-// this.toObservable(borderColor).subscribe(brColor => border.attr('fill', brColor));
-// this.toObservable(backgroundColor).subscribe(bgColor => background.attr('fill', bgColor));
-// this.toObservable(foregroundColor).subscribe(fgColor => label.attr('fill', fgColor));
-// this.toObservable(text).subscribe(textValue => label.text(textValue));
-
-// return button;
