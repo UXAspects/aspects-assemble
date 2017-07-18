@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -7,19 +7,27 @@ import { PropertiesPaneComponent } from './components/properties-pane/properties
 import { PreviewPaneComponent } from './components/preview-pane/preview-pane.component';
 import { PropertyBoxComponent } from './components/property-box/property-box.component';
 import { ColorPickerModule } from 'angular4-color-picker';
-import { ThemeService } from './services/theme/theme.service';
+import { StateService } from './services/state/state.service';
 import { BuilderService } from './services/builder/builder.service';
 import { ColorInverseDirective } from './directives/color-inverse/color-inverse.directive';
 import { IconDirective } from './directives/icon/icon.directive';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { VectorService } from './services/vector/vector.service';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { IconService } from './services/icon/icon.service';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { ContextMenuService } from './services/context-menu/context-menu.service';
+import { OutsideClickDirective } from './directives/outside-click/outside-click.directive';
 
 @NgModule({
   imports: [
     BrowserModule,
     ColorPickerModule,
     FormsModule,
-    ModalModule.forRoot()
+    ReactiveFormsModule,
+    TooltipModule.forRoot(),
+    ModalModule.forRoot(),
+    TypeaheadModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -28,12 +36,15 @@ import { VectorService } from './services/vector/vector.service';
     PreviewPaneComponent,
     PropertyBoxComponent,
     ColorInverseDirective,
-    IconDirective
+    IconDirective,
+    ContextMenuComponent,
+    OutsideClickDirective
   ],
   providers: [
-    ThemeService,
+    StateService,
     BuilderService,
-    VectorService
+    IconService,
+    ContextMenuService
   ],
   bootstrap: [AppComponent]
 })

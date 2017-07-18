@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ThemeService } from '../theme/theme.service';
+import { StateService } from '../state/state.service';
 
 @Injectable()
 export class BuilderService {
 
-    constructor(private _themeService: ThemeService) { }
+    constructor(private _stateService: StateService) { }
 
     create() {
     }

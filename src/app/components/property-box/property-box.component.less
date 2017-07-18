@@ -7,13 +7,34 @@
     background-color: #353736;
     border-bottom: 1px solid #262626;
     color: #fff;
+    font-size: 14px;
 
     .property-box-header-label {
         margin: 0;
+        font-size: 14px;
+    }
+
+    .hpe-icon {
+        transform: rotate(0);
+        transition: transform 0.3s ease-in-out;
+
+        &.section-expanded {
+            transform: rotate(-90deg);
+        }
     }
 
 }
 
 .property-box-content {
-    padding: 10px;
+    opacity: 0;
+    height: 0;
+    overflow-y: hidden;
+    transition: opacity 0.3s ease-in-out;
+
+    &.section-expanded {
+        padding: 10px;
+        opacity: 1;
+        height: auto;
+        overflow-y: visible;
+    }
 }

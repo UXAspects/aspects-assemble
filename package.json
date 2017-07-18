@@ -37,7 +37,6 @@
     "ngx-bootstrap": "^1.7.1",
     "rxjs": "5.4.0",
     "source-sans-pro": "^2.0.10",
-    "svg-inline-loader": "^0.7.1",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {
@@ -57,6 +56,7 @@
     "null-loader": "^0.1.1",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.18.2",
+    "svg-inline-loader": "^0.7.1",
     "tslint": "^5.4.3",
     "typescript": "~2.3.4",
     "webpack": "2.6.1"
