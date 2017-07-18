@@ -17427,7 +17427,6 @@ body {
 }
 .form-control {
   box-sizing: border-box;
-  margin-top: 5px;
   font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
 }
 .form-group {
@@ -17435,4 +17434,12 @@ body {
 }
 .color-input {
   color: #fff;
+}
+.icon-dropdown + .dropdown {
+  width: 100%;
+}
+.icon-dropdown + .dropdown .dropdown-menu {
+  max-height: 150px;
+  overflow: auto;
+  width: calc(100% - 30px);
 }
