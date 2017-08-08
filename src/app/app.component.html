@@ -1,81 +1,10 @@
-<uxa-header (onCreate)="comingSoonModal.show()"></uxa-header>
+<uxa-header></uxa-header>
 
 <div class="main-content">
 
     <uxa-preview-pane (onAddPage)="addPageModal.show()"></uxa-preview-pane>
 
-    <uxa-properties-pane>
-
-        <uxa-property-box header="Application Details" [expanded]="true">
-
-            <div class="form-group">
-                <label class="form-label">Application Name</label>
-                <input type="text" [ngModel]="stateService.brand | async" (ngModelChange)="stateService.brand.next($event)" placeholder="My Application"
-                    class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Logo</label>
-                <input #logoUpload type="file" (change)="stateService.logo.next(logoUpload.files)" placeholder="logo.png" class="form-control">
-            </div>
-
-        </uxa-property-box>
-
-        <uxa-property-box header="Theme">
-
-            <label class="form-label">Page Background</label>
-
-            <div class="form-group">
-                <input class="form-control color-input" [colorPicker]="stateService.theme.background | async" (colorPickerChange)="setColor(stateService.theme.background, $event)"
-                    [style.background]="stateService.theme.background | async" [value]="stateService.theme.background | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.background | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Text Color</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.textColor | async" (colorPickerChange)="setColor(stateService.theme.textColor, $event)"
-                    [style.background]="stateService.theme.textColor | async" [value]="stateService.theme.textColor | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.textColor | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Page Header</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.pageHeader | async" (colorPickerChange)="setColor(stateService.theme.pageHeader, $event)"
-                    [style.background]="stateService.theme.pageHeader | async" [value]="stateService.theme.pageHeader | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.pageHeader | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Side Navigation</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.sideNavigation | async" (colorPickerChange)="setColor(stateService.theme.sideNavigation, $event)"
-                    [style.background]="stateService.theme.sideNavigation | async" [value]="stateService.theme.sideNavigation | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.sideNavigation | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Primary</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.primary | async" (colorPickerChange)="setColor(stateService.theme.primary, $event)"
-                    [style.background]="stateService.theme.primary | async" [value]="stateService.theme.primary | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.primary | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Accent</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.accent | async" (colorPickerChange)="setColor(stateService.theme.accent, $event)"
-                    [style.background]="stateService.theme.accent | async" [value]="stateService.theme.accent | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.accent | async" />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Warning</label>
-                <input class="form-control color-input" [colorPicker]="stateService.theme.warning | async" (colorPickerChange)="setColor(stateService.theme.warning, $event)"
-                    [style.background]="stateService.theme.warning | async" [value]="stateService.theme.warning | async" cpPosition="left"
-                    [colorInverse]="stateService.theme.warning | async" />
-            </div>
-                
-        </uxa-property-box>
-
-    </uxa-properties-pane>
+    <uxa-properties-pane></uxa-properties-pane>
 
 </div>
 

@@ -3,6 +3,8 @@ import { PAGE_HEADER_WIDTH, PAGE_HEADER_HEIGHT } from '../constants';
 import { IconService } from '../../services/icon/icon.service';
 import { stateServiceInstance } from '../../app.component';
 import { PageData } from '../../services/state/state.service';
+import { Selectable } from '../modifiers/selectable';
+import { ComponentPropertyType } from '../../services/properties/properties.service';
 
 export class PageHeaderControl extends Renderable {
 
@@ -66,6 +68,16 @@ export class PageHeaderControl extends Renderable {
             .attr('width', PAGE_HEADER_WIDTH)
             .attr('height', PAGE_HEADER_HEIGHT)
             .insert(background, title, breadcrumbs, menuContainer);
+
+        // make background rect selectable
+        let selectable = new Selectable(background, 'Page Header', [
+            {
+                title: 'Background Color',
+                placeholder: '#fff',
+                type: ComponentPropertyType.Color,
+                value: stateServiceInstance.theme.pageHeader
+            }
+        ]);
     }
 
     getVectorElement(): VectorElement {

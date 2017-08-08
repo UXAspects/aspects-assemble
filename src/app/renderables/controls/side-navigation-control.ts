@@ -6,6 +6,8 @@ import { Observer } from 'rxjs/Observer';
 import { PageData } from '../../services/state/state.service';
 import { SideNavigationItemControl } from './side-navigation-item-control';
 import { stateServiceInstance } from '../../app.component';
+import { Selectable } from '../modifiers/selectable';
+import { ComponentPropertyType } from '../../services/properties/properties.service';
 
 export class SideNavigationControl extends Renderable {
 
@@ -82,6 +84,27 @@ export class SideNavigationControl extends Renderable {
         // Render Menu Items
         stateServiceInstance.pages.subscribe(pages => this.createItems(pages));
 
+        // make side navigation selectable
+        let selectable = new Selectable(background, 'Side Navigation', [
+            {
+                title: 'App Name',
+                placeholder: 'UX Aspects',
+                type: ComponentPropertyType.String,
+                value: stateServiceInstance.brand
+            },
+            {
+                title: 'App Icon',
+                placeholder: 'logo.png',
+                type: ComponentPropertyType.File,
+                value: stateServiceInstance.logo
+            },
+            {
+                title: 'Background Color',
+                placeholder: '#0c4751',
+                type: ComponentPropertyType.Color,
+                value: stateServiceInstance.theme.sideNavigation
+            }
+        ]);
     }
 
     createItems(pages: PageData[]): void {

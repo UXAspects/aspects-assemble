@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PropertiesPaneComponent } from './components/properties-pane/properties-pane.component';
 import { PreviewPaneComponent } from './components/preview-pane/preview-pane.component';
-import { PropertyBoxComponent } from './components/property-box/property-box.component';
 import { ColorPickerModule } from 'angular4-color-picker';
 import { StateService } from './services/state/state.service';
 import { BuilderService } from './services/builder/builder.service';
@@ -18,6 +17,7 @@ import { IconService } from './services/icon/icon.service';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { ContextMenuService } from './services/context-menu/context-menu.service';
 import { OutsideClickDirective } from './directives/outside-click/outside-click.directive';
+import { PropertiesService } from './services/properties/properties.service';
 
 @NgModule({
   imports: [
@@ -34,7 +34,6 @@ import { OutsideClickDirective } from './directives/outside-click/outside-click.
     HeaderComponent,
     PropertiesPaneComponent,
     PreviewPaneComponent,
-    PropertyBoxComponent,
     ColorInverseDirective,
     IconDirective,
     ContextMenuComponent,
@@ -44,7 +43,8 @@ import { OutsideClickDirective } from './directives/outside-click/outside-click.
     StateService,
     BuilderService,
     IconService,
-    ContextMenuService
+    ContextMenuService,
+    PropertiesService
   ],
   bootstrap: [AppComponent]
 })

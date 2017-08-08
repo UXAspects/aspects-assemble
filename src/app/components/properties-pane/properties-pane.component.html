@@ -1,1 +1,47 @@
-<ng-content></ng-content>
+<div class="properties__header">
+    <p class="properties__title">{{ title }}</p>
+</div>
+
+<div class="properties__content">
+    <!-- Show "Select a Component" message when no component selected -->
+    <h3 class="properties__tip" *ngIf="(properties | async).length === 0">Select a Component</h3>
+
+    <!-- Otherwise build a form to allow customization -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group" *ngFor="let property of properties | async">
+
+                    <label class="form-label">{{ property.title }}</label>
+
+                    <!-- Show the appropriate input control -->
+
+                    <ng-container *ngIf="property.type === types.String">
+                        <input type="text" [placeholder]="property.placeholder" class="form-control" [ngModel]="property.value | async" (ngModelChange)="property.value.next($event)">
+                    </ng-container>
+
+                    <ng-container *ngIf="property.type === types.Number">
+                        <input type="number" [placeholder]="property.placeholder" class="form-control" [ngModel]="property.value | async" (ngModelChange)="property.value.next($event)">
+                    </ng-container>
+
+                    <ng-container *ngIf="property.type === types.Color">
+                        <input class="form-control color-input" [colorPicker]="property.value | async" (colorPickerChange)="property.value.next($event)"
+                            [style.background]="property.value | async" [value]="property.value | async" cpPosition="left" cpDialogDisplay="popup"
+                            [colorInverse]="property.value | async"
+                        />
+                    </ng-container>
+
+                    <ng-container *ngIf="property.type === types.File">
+                        <input #logoUpload type="file" [placeholder]="property.placeholder" class="form-control" (change)="property.value.next(logoUpload.files)">
+                    </ng-container>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

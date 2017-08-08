@@ -1,0 +1,17 @@
+# UX Aspects Project
+
+Thank you for using Aspects Assemble! To build and run your project follow the steps outlines below:
+
+1. Install the dependencies using `npm` in the repository directory:
+```bash
+npm install
+```
+
+2. Build the project and start the development server. This will automatically rebuild when source changes are made.
+```bash
+npm start
+```
+
+# Documentation
+
+Documentation for all UX Aspects components can be found on our [documentation site](https://uxaspects.github.io/UXAspects).

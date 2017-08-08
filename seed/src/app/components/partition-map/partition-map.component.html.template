@@ -1,0 +1,3 @@
+<div class="partition-container">
+    <ux-partition-map-ng1 [chartData]="data" [chartOptions]="options" [chartLoading]="false"></ux-partition-map-ng1>
+</div>

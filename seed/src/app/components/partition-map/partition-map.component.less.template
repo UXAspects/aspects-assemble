@@ -1,0 +1,5 @@
+.partition-container {
+    width: 100%;
+    height: ~'calc(100vh - 122px)';
+    overflow: hidden;
+}

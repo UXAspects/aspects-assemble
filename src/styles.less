@@ -36,3 +36,19 @@ html, body {
         width: ~'calc(100% - 30px)';
     }
 }
+
+@component__stroke-color: #00cceb;
+
+.component__selection { 
+    stroke: fade(@component__stroke-color, 0%);
+    stroke-width: 5px;
+    transition: stroke 0.3s ease-in-out;
+
+    &:hover {
+        stroke: @component__stroke-color;
+    }
+}
+
+.component__selection--active {
+    stroke: @component__stroke-color;
+}

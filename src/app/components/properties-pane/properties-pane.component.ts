@@ -1,5 +1,6 @@
-import { Component, OnInit, QueryList, ContentChildren } from '@angular/core';
-import { PropertyBoxComponent } from '../property-box/property-box.component';
+import { Component } from '@angular/core';
+import { PropertiesService, ComponentProperty, ComponentPropertyType } from '../../services/properties/properties.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'uxa-properties-pane',
@@ -8,15 +9,16 @@ import { PropertyBoxComponent } from '../property-box/property-box.component';
 })
 export class PropertiesPaneComponent {
 
-    @ContentChildren(PropertyBoxComponent) propertyBoxes: QueryList<PropertyBoxComponent>;
+    title: string = 'Component Properties';
+    properties: BehaviorSubject<ComponentProperty[]>;
 
-    constructor() { }
+    // expose enum to view
+    types = ComponentPropertyType;
 
-    ngAfterViewInit() {
-        this.propertyBoxes.forEach(box => box.setContainer(this));
+    constructor(propertiesService: PropertiesService) {
+        this.properties = propertiesService.properties;
+
+        propertiesService.title.subscribe(title => this.title = title ? title : 'Component Properties');
     }
 
-    collapseAll() {
-        this.propertyBoxes.forEach(box => box.collapse());
-    }
 }
