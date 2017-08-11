@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import 'chance';
 
 @Component({
-    selector: 'my-list-view',
-    templateUrl: './list-view.component.html'
+    selector: '${SELECTOR}',
+    templateUrl: './${TEMPLATE_FILE_NAME}'
 })
-export class ListViewComponent {
+export class ${COMPONENT_NAME} {
 
     pageSize: number = 20;
     totalItems: number = 100;

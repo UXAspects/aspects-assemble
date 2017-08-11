@@ -9,7 +9,7 @@ import 'rxjs/add/operator/filter';
 export class ContentHeaderComponent {
 
     heading: string;
-    breadcrumbs: string[] = [];
+    breadcrumbs: string[];
 
     constructor(router: Router) {
 
@@ -18,11 +18,11 @@ export class ContentHeaderComponent {
             
             // get the heading from the deepest route
             this.heading = activeRoute.data.title;
-            this.breadcrumbs = this.getBreadcrumbs(activeRoute);
+            this.breadcrumbs = activeRoute.data.breadcrumbs;
         });
     }
 
-    getActiveRoute(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
+    getActiveRoute(route: ActivatedRouteSnapshot) {
         let activeRoute = route;
 
         while (activeRoute.children.length !== 0) {
@@ -30,27 +30,5 @@ export class ContentHeaderComponent {
         }
 
         return activeRoute;
-    }
-
-    getBreadcrumbs(route: ActivatedRouteSnapshot): string[] {
-        let breadcrumbs: string[] = [];
-        
-        // ignore the immediate route - start with parent
-        route = route.parent;
-
-        // go through each parent and get their titles
-        while (route.parent) {
-            if (route.data.title) {
-                breadcrumbs.push(route.data.title);
-            }
-
-            route = route.parent;
-        }
-
-        return breadcrumbs.reverse();
-    }
-
-    goBack(): void {
-        // do something here
     }
 }

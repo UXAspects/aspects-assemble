@@ -16,40 +16,16 @@ import { ChartsModule } from 'ng2-charts';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import './wrappers/expand-input-wrapper/ux-expand-input-ng1.directive.ts';
 import './wrappers/templates/template.service';
+import './wrappers/popover/popover.controller';
 
 // Pages
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ListViewComponent } from './components/list-view/list-view.component';
-import { PartitionMapComponent } from './components/partition-map/partition-map.component';
-
+${IMPORTS}
 
 // create a singleton of the upgrade adapter
 export const upgradeAdapter = new UpgradeAdapter(forwardRef(() => AppModule));
 
 const APPROUTES: Routes = [
-    {
-        path: 'dashboard',
-        component: DashboardComponent,
-        data: {
-            title: 'Dashboard'
-        }
-    },
-    {
-        path: 'list-view',
-        component: ListViewComponent,
-        data: {
-            title: 'List View'
-        }
-    },
-    {
-        path: 'partition-map',
-        component: PartitionMapComponent,
-        data: {
-            title: 'Partition Map'
-        }
-    },
-    { path: '', redirectTo: '/list-view', pathMatch: 'full' },
-    { path: '**', component: ListViewComponent }
+    ${ROUTES}
 ];
 
 @NgModule({
@@ -67,9 +43,7 @@ const APPROUTES: Routes = [
         PageHeaderComponent,
         LeftNavigationComponent,
         ContentHeaderComponent,
-        DashboardComponent,
-        ListViewComponent,
-        PartitionMapComponent,
+        ${DECLARATIONS}
         upgradeAdapter.upgradeNg1Component('uxExpandInputNg1'),
         upgradeAdapter.upgradeNg1Component('uxPartitionMapNg1')
     ]

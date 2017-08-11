@@ -1,13 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { TemplateService } from '../../wrappers/templates/template.service';
-import './popover/popover.controller';
 
 @Component({
-    selector: 'my-partition-map',
-    templateUrl: './partition-map.component.html',
-    styleUrls: ['./partition-map.component.less']
+    selector: '${SELECTOR}',
+    templateUrl: './${TEMPLATE_FILE_NAME}',
+    styleUrls: ['./${STYLESHEET_FILE_NAME}']
 })
-export class PartitionMapComponent {
+export class ${COMPONENT_NAME} {
 
     data = [{
         label: 'Home',
@@ -127,6 +126,6 @@ export class PartitionMapComponent {
 
     constructor(@Inject('$templateService') $templateService: TemplateService) {
         // cache the template
-        $templateService.setTemplate('partition-map-popover.html', require('!!raw-loader!./popover/popover.html'));
+        $templateService.setTemplate('partition-map-popover.html', require('!!raw-loader!../../wrappers/popover/popover.html'));
     }
 }

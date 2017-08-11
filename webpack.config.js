@@ -45,7 +45,7 @@ module.exports = {
                 })
             },
             {
-                test: /\.template$/,
+                test: /\.(template|layout)$/,
                 use: 'raw-loader'
             }
         ]

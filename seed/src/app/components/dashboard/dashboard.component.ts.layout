@@ -4,11 +4,11 @@ import { LinearTickOptions, ChartOptions, ChartDataSets, ChartPoint } from 'char
 import 'chance';
 
 @Component({
-    selector: 'my-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.less']
+    selector: '${SELECTOR}',
+    templateUrl: './${TEMPLATE_FILE_NAME}',
+    styleUrls: ['./${STYLESHEET_FILE_NAME}']
 })
-export class DashboardComponent {
+export class ${COMPONENT_NAME} {
 
     // configure the directive data
     lineChartData: ChartDataSets[] = [{
