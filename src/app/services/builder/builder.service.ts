@@ -34,6 +34,11 @@ export class BuilderService {
 
         zip.file('src/app/app.module.ts', appModule);
 
+        // create side navigation
+        let sideNavigation = this.createSideNavigation();
+
+        zip.file('src/app/shared/left-navigation/left-navigation.component.html', sideNavigation);
+
         // add pages to the zip
         pages.forEach(page => {
             zip.file(this.selectorToComponentPath(page.selector, '.html'), page.template);
@@ -61,7 +66,7 @@ export class BuilderService {
 
         // map the pages to routes
         let routes: string[] = pages.map(page => {
-            return `{\n  path: '${this.titleToSelector(page.text)}', \n  component: ${this.titleToComponent(page.text)}, \n  data: { \n    title: '${page.text}', \n    breadcrumbs: [ ${ page.breadcrumbs.map(crumb => `'${crumb}'`).join(', ') } ] \n    }\n}`;
+            return `{\n  path: '${this.titleToSelector(page.text)}', \n  component: ${this.titleToComponent(page.text)}, \n  data: { \n    title: '${page.text}', \n    breadcrumbs: [ ${page.breadcrumbs.map(crumb => `'${crumb}'`).join(', ')} ] \n    }\n}`;
         });
 
         // add some default routes
@@ -91,6 +96,23 @@ export class BuilderService {
                     return this.createPartitionMapView(page);
             }
         });
+    }
+
+    createSideNavigation(): string {
+
+        let layout = require('../../../../seed/src/app/shared/left-navigation/left-navigation.component.html.layout');
+
+        let items = this._stateService.pages.getValue().map(page => `
+            <li routerLinkActive="active selected">
+                <a routerLink="${this.titleToSelector(page.text)}">
+                    <i class="hpe-icon hpe-${page.icon}"></i>
+                    <span class="nav-label">${page.text}</span>
+                </a>
+            </li>`);
+
+        return layout.replace('${TITLE}', this._stateService.brand.getValue())
+            .replace('${ITEMS}', items.join('\n\n'));
+
     }
 
     createListView(page: PageData): ComponentPage {

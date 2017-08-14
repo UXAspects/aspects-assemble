@@ -9,26 +9,6 @@
 </div>
 
 
-
-<!-- Create Not Currently Available Modal -->
-<div class="modal square-modal-window fade" bsModal #comingSoonModal="bs-modal" [config]="{ backdrop: 'static' }" tabindex="-1"
-    role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header dark-modal-header">
-                <h4 class="modal-title pull-left">Coming Soon</h4>
-            </div>
-            <div class="modal-body">
-                This feature is coming soon!
-            </div>
-            <div class="modal-footer">
-                <button class="btn button-primary" (click)="comingSoonModal.hide()">Ok</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- Create Edit Pages Modal -->
 <div class="modal square-modal-window fade" bsModal #addPageModal="bs-modal" [config]="{ backdrop: 'static' }" tabindex="-1"
     role="dialog" aria-hidden="true" (onHidden)="onModalClose()">

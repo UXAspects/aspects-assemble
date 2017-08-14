@@ -38,7 +38,7 @@ export class AppComponent {
 
 
     this.pageForm = formBuilder.group({
-      name: [null, Validators.required],
+      name: [null, Validators.compose([Validators.required, this.pageNameValidator.bind(this)])],
       icon: [null, Validators.compose([Validators.required, this.iconValidator.bind(this)])],
       breadcrumbs: ['']
     });
@@ -46,6 +46,19 @@ export class AppComponent {
     this.icons = Object.keys(iconService).filter(name => typeof iconService[name] !== 'function').map(name => {
       return name.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
     });
+  }
+
+  pageNameValidator(control: AbstractControl): ValidationErrors {
+
+    if (control.value && this.stateService.pages.getValue().find(page => page.text.toLowerCase() === control.value.toLowerCase())) {
+      return { exists: true };
+    }
+
+    if (control.value && !control.value.match(/^[A-Za-z0-9 _]*[A-Za-z]+[A-Za-z0-9 _]*$/)) {
+      return { invalid: true };
+    }
+
+    return {};
   }
 
   iconValidator(control: AbstractControl): ValidationErrors {
@@ -64,15 +77,15 @@ export class AppComponent {
     let layout: PageLayout;
 
     switch (this.layout) {
-      
+
       case 'list-view':
         layout = PageLayout.ListView;
         break;
-      
+
       case 'dashboard':
         layout = PageLayout.Dashboard;
         break;
-      
+
       case 'partition-map':
         layout = PageLayout.PartitionMap;
         break;
