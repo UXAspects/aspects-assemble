@@ -103,6 +103,18 @@ export class VectorElement {
         this._element.removeChild(child.getElement());
         return this;
     }
+
+    addClass(className: string): void {
+        this._element.classList.add(className);
+    }
+
+    toggleClass(className: string): void {
+        this._element.classList.toggle(className);
+    }
+    
+    removeClass(className: string): void {
+        this._element.classList.remove(className);
+    }
 }
 
 export class InlineSVG {

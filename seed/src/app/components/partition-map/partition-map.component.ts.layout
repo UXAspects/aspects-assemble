@@ -1,0 +1,131 @@
+import { Component, Inject } from '@angular/core';
+import { TemplateService } from '../../wrappers/templates/template.service';
+
+@Component({
+    selector: '${SELECTOR}',
+    templateUrl: './${TEMPLATE_FILE_NAME}',
+    styleUrls: ['./${STYLESHEET_FILE_NAME}']
+})
+export class ${COMPONENT_NAME} {
+
+    data = [{
+        label: 'Home',
+        image: 'https://uxaspects.github.io/UXAspects/assets/img/home.png',
+        groupName: 'Hard Drives',
+        children: [{
+            label: 'Jennifer Bailey',
+            groupName: 'Custodian',
+            children: [{
+                label: 'English',
+                groupName: 'Language',
+                children: [{
+                    label: 'Email',
+                    groupName: 'Data Source',
+                    value: 40
+                }, {
+                    label: 'Microsoft Word',
+                    groupName: 'Data Source',
+                    value: 10
+                }]
+            }, {
+                label: 'German',
+                groupName: 'Language',
+                children: [{
+                    label: 'Email',
+                    groupName: 'Data Source',
+                    value: 10
+                }, {
+                    label: 'Microsoft Word',
+                    groupName: 'Data Source',
+                    value: 5
+                }]
+            }]
+        }, {
+            label: 'Stephen Sheridan',
+            groupName: 'Custodian',
+            children: [{
+                label: 'English',
+                groupName: 'Language',
+                children: [{
+                    label: 'Email',
+                    groupName: 'Data Source',
+                    value: 15
+                }, {
+                    label: 'Microsoft Word',
+                    groupName: 'Data Source',
+                    value: 5
+                }],
+            },
+            {
+                label: 'German',
+                groupName: 'Language',
+                children: [{
+                    label: 'Email',
+                    groupName: 'Data Source',
+                    value: 10
+                }, {
+                    label: 'Microsoft Word',
+                    groupName: 'Data Source',
+                    value: 5
+                }]
+            }
+            ]
+        }]
+    }];
+
+    options = {
+        edit: {
+            text: 'Edit',
+            image: 'https://uxaspects.github.io/UXAspects/assets/img/pencil.png',
+            click: root => {
+                // perform action when the edit option is clicked
+            },
+            editor: {
+                enabled: true,
+                finishText: 'Done',
+                noGroupsText: 'No groups available',
+                availableGroups: ['Custodian', 'Language', 'Data Source'],
+                maxRows: 3,
+                minRows: 1,
+                onFinish: order => {
+
+                }
+            }
+        },
+        select: data => {
+            // perform action when a segment has been clicked
+        },
+        maximize: {
+            disableScrolling: false,
+            buttonVisible: false,
+            isMaximized: true,
+            fillScreen: false,
+            sidePanelWidth: 235,
+            shouldResize: false,
+            onToggle: action => {
+
+            }
+        },
+        popoverTemplate: 'partition-map-popover.html',
+        popoverEnabled: true,
+        valueFormatter: value => value.toLocaleString(),
+        noDataLabel: 'No data to display',
+        loadingLabel: 'Loading...',
+        popoverDelay: 650,
+        buttonOffset: {
+            maximize: {
+                x: 40,
+                y: 0
+            },
+            minimize: {
+                x: 0,
+                y: 0
+            }
+        }
+    };
+
+    constructor(@Inject('$templateService') $templateService: TemplateService) {
+        // cache the template
+        $templateService.setTemplate('partition-map-popover.html', require('!!raw-loader!../../wrappers/popover/popover.html'));
+    }
+}

@@ -1,0 +1,60 @@
+import { Component } from '@angular/core';
+import 'chance';
+
+@Component({
+    selector: '${SELECTOR}',
+    templateUrl: './${TEMPLATE_FILE_NAME}'
+})
+export class ${COMPONENT_NAME} {
+
+    pageSize: number = 20;
+    totalItems: number = 100;
+    currentPage: number = 1;
+    people: Person[];
+    
+    private _data: Person[] = this.generateData();
+
+    constructor() {
+        this.people = this.getPageData();
+    }
+
+    getPageData(): Person[] {
+        let page = this.currentPage - 1;
+        let start = page * this.pageSize;
+        let end = start + this.pageSize;
+
+        return this._data.slice(start, end);
+    }
+
+    pageChanged(event: PageEvent): void {
+        this.currentPage = event.page;
+
+        this.people = this.getPageData();
+    }
+
+    generateData(): Person[] {
+
+        let output: Person[] = [];
+
+        for (let idx = 0; idx < this.totalItems; idx++) {
+            output.push({
+                name: chance.name(),
+                address: chance.address(),
+                date: chance.date().toLocaleDateString()
+            });
+        }
+
+        return output;
+    }
+}
+
+export interface Person {
+    name: string;
+    address: string;
+    date: string;
+}
+
+export interface PageEvent {
+    itemsPerPage: number;
+    page: number;
+}

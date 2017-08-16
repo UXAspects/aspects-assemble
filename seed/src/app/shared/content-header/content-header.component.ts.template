@@ -1,0 +1,34 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
+import 'rxjs/add/operator/filter';
+
+@Component({
+    selector: 'my-content-header',
+    templateUrl: './content-header.component.html'
+})
+export class ContentHeaderComponent {
+
+    heading: string;
+    breadcrumbs: string[];
+
+    constructor(router: Router) {
+
+        router.events.filter(event => event instanceof NavigationEnd).subscribe((event) => {
+            let activeRoute = this.getActiveRoute(router.routerState.snapshot.root);
+            
+            // get the heading from the deepest route
+            this.heading = activeRoute.data.title;
+            this.breadcrumbs = activeRoute.data.breadcrumbs;
+        });
+    }
+
+    getActiveRoute(route: ActivatedRouteSnapshot) {
+        let activeRoute = route;
+
+        while (activeRoute.children.length !== 0) {
+            activeRoute = activeRoute.firstChild;
+        }
+
+        return activeRoute;
+    }
+}

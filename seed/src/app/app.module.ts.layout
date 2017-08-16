@@ -1,0 +1,61 @@
+declare var angular: ng.IAngularStatic;
+
+let app = angular.module('app', ['ux-aspects']);
+
+import { NgModule, forwardRef, Component } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { UpgradeAdapter } from '@angular/upgrade';
+import { AppComponent } from './app.component';
+import { PageHeaderComponent } from './shared/page-header/page-header.component';
+import { LeftNavigationComponent } from './shared/left-navigation/left-navigation.component';
+import { ContentHeaderComponent } from './shared/content-header/content-header.component';
+import { RouterModule, Routes } from '@angular/router';
+import { DashboardModule, SparkModule } from '@ux-aspects/ux-aspects';
+import { ChartsModule } from 'ng2-charts';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import './wrappers/expand-input-wrapper/ux-expand-input-ng1.directive.ts';
+import './wrappers/templates/template.service';
+import './wrappers/popover/popover.controller';
+
+// Pages
+${IMPORTS}
+
+// create a singleton of the upgrade adapter
+export const upgradeAdapter = new UpgradeAdapter(forwardRef(() => AppModule));
+
+const APPROUTES: Routes = [
+    ${ROUTES}
+];
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        FormsModule,
+        DashboardModule,
+        ChartsModule,
+        SparkModule,
+        PaginationModule.forRoot(),
+        RouterModule.forRoot(APPROUTES, { useHash: true, initialNavigation: false })
+    ],
+    declarations: [
+        AppComponent,
+        PageHeaderComponent,
+        LeftNavigationComponent,
+        ContentHeaderComponent,
+        ${DECLARATIONS}
+        upgradeAdapter.upgradeNg1Component('uxExpandInputNg1'),
+        upgradeAdapter.upgradeNg1Component('uxPartitionMapNg1')
+    ]
+})
+export class AppModule {
+    ngDoBootstrap() { }
+}
+
+upgradeAdapter.upgradeNg1Provider('$navigationMenu');
+upgradeAdapter.upgradeNg1Provider('$templateService');
+
+app.directive('myApp', upgradeAdapter.downgradeNg2Component(AppComponent) as angular.IDirectiveFactory);
+
+// bootstrap the Angular 1 application here 
+upgradeAdapter.bootstrap(document.documentElement, ['app']);

@@ -1,0 +1,20 @@
+import * as angular from 'angular';
+
+export class TemplateService {
+    
+    static $inject = ['$templateCache'];
+
+    constructor(private _templateCache: ng.ITemplateCacheService) { }
+
+    setTemplate(templateName: string, templateContent: string): void {
+        this._templateCache.put(templateName, templateContent);
+    }
+
+    getTemplate(templateName: string): string {
+        return this._templateCache.get<string>(templateName);
+    }
+
+}
+
+
+angular.module('app').service('$templateService', TemplateService);

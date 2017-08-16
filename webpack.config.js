@@ -43,6 +43,10 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     use: ['css-loader', 'less-loader']
                 })
+            },
+            {
+                test: /\.(template|layout)$/,
+                use: 'raw-loader'
             }
         ]
     },

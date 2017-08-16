@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { BuilderService } from '../../services/builder/builder.service';
 
 @Component({
     selector: 'uxa-header',
@@ -7,9 +8,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
     
-    @Output() onCreate = new EventEmitter<any>();
+    constructor(private _builder: BuilderService) { }
 
     create() {
-        this.onCreate.emit();
+        this._builder.create();
     }
 }
