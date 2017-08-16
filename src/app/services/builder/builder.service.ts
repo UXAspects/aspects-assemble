@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StateService, PageLayout, PageData } from '../state/state.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { kebabCase } from 'lodash';
 
 @Injectable()
 export class BuilderService {
@@ -105,7 +106,7 @@ export class BuilderService {
         let items = this._stateService.pages.getValue().map(page => `
             <li routerLinkActive="active selected">
                 <a routerLink="${this.titleToSelector(page.text)}">
-                    <i class="hpe-icon hpe-${page.icon}"></i>
+                    <i class="hpe-icon hpe-${kebabCase(page.icon)}"></i>
                     <span class="nav-label">${page.text}</span>
                 </a>
             </li>`);
