@@ -192,6 +192,7 @@ export class BuilderService {
             `@text-color: ${this._stateService.theme.textColor.getValue()};`,
             `@body-bg: ${this._stateService.theme.background.getValue()};`,
             `@navbar-side-container-dark: ${this._stateService.theme.sideNavigation.getValue()};`,
+            `@navbar-menu-btn-container-bg-dark: ${this._stateService.theme.sideNavigation.getValue()};`,
             `@navbar-bg-light: ${this._stateService.theme.pageHeader.getValue()};`
         ];
 
